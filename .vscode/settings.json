@@ -1,10 +1,9 @@
 {
   "terminal.integrated.profile.windows": "C:\\Windows\\System32\\cmd.exe",
-  "java.configuration.updateBuildConfiguration": "disabled",
+  "java.configuration.updateBuildConfiguration": "automatic",
   //java源文件路径
   "java.project.sourcePaths": [
     "src/main/java",
-    "src/main/resources",
     "src/test/java",
   ],
   //关闭自动编译
@@ -47,7 +46,7 @@
         "type": "local",
         "name": "HOTSITE",
         "description": "A local folder",
-        "dir": "target/${project.name}/",
+        "dir": "target/outsourcing/",
         "mappings": [
           {
             "source": "src/main/webapp",
