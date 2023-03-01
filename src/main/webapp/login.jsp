@@ -36,7 +36,7 @@
 
         <div class="container">
             <div align="center">
-                <img src="images/stdu.png" width="100px" height="100px" ">
+                <img src="images/stdu.png" width="130px" height="110px" ">
             </div>
             <div align=" center">
                 <h2 class=" form-signin-heading" align="center">欢迎登陆</h2>
