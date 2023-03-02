@@ -36,7 +36,8 @@
 
         <div class="container">
             <div align="center">
-                <img src="images/stdu.png" width="130px" height="110px" ">
+                <img src="https://img2023.cnblogs.com/blog/1959049/202303/1959049-20230302112948247-2033087028.png"
+                    width="130px" height="110px" ">
             </div>
             <div align=" center">
                 <h2 class=" form-signin-heading" align="center">欢迎登陆</h2>
