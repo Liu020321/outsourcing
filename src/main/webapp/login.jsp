@@ -37,19 +37,19 @@
         <div class="container">
             <div align="center">
                 <img src="https://img2023.cnblogs.com/blog/1959049/202303/1959049-20230302112948247-2033087028.png"
-                    width="130px" height="110px" ">
+                    width="130px" height="110px">
             </div>
             <div align=" center">
                 <h2 class=" form-signin-heading" align="center">欢迎登陆</h2>
             </div>
 
-            <form class=" form-signin" method="post" action="main.jsp">
+            <form class=" form-signin" method="post" action="signServlet">
 
 
                 <label for="inputText" class="sr-only">请输入用户名</label>
-                <input type="text" id="inputText" class="form-control" placeholder="用户名" required>
+                <input type="text" id="inputText" name="username" class="form-control" placeholder="用户名" required>
                 <label for="inputPassword" class="sr-only">请输入密码</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me">请记住您的账号密码
