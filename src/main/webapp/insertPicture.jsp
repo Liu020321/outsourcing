@@ -25,33 +25,6 @@
   <link href="bootstrap/css/style.css" rel="stylesheet">
 
 
-  <script>
-    function verificationPicture(file){
-      var fileTypes=[".nii",".nii.gz",".mhd",".dcm",".raw"];
-      var filePath=document.getElementById("file").value;
-
-      if(filePath){
-        var isNext=false;
-        var fileEnd=filePath.substring(filePath.indexOf("."));//截取到文件后缀名
-
-        for(var i=0;i<fileTypes.length;i++){
-          if(fileEnd.equals(fileTypes[i])){
-            isNext=true;
-            break;
-          }
-        }
-
-        if(!isNext){
-          alert("不接受此文件类型！");
-          document.getElementById("file").value="";
-          return false;
-        }
-
-      }else{
-        return false;
-      }
-    }
-  </script>
 </head>
 
 <body>
@@ -452,7 +425,7 @@
             <table class="table table-striped table-bordered zero-configuration">
               <tbody>
               <tr>
-                <td>选择文件进行上传：<input type="file" name="file" id="file" onchange="verificationPicture(this)"></td>
+                <td>选择文件进行上传：<input type="file" name="file" accept=".nii,.nii.gz,.mhd,.dcm,.raw" id="file"></td>
               </tr>
 
               <tr>
