@@ -23,6 +23,6 @@
 
     <!--Mapper代理开发方式-->
     <mappers>
-        <package name="org.example.mapper"/>
+        <package name="com.outsourcing.mapper"/>
     </mappers>
 </configuration>
