@@ -11,6 +11,16 @@
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
+    <script type="text/javascript">
+        function load(n){
+            if (n==0) {alert("上传完成")};
+            var progress=document.getElementById("pro");
+            n=n-1;
+            task=100-n;
+            progress.value=task;
+            setTimeout("load("+n+")",100);
+        }
+    </script>
 </head>
 
 <body>
@@ -415,7 +425,14 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <td colspan="2" align="center"><input type="submit" value="确定" style="background:palevioletred"><input type="submit" value="取消" style="background:paleturquoise"></td>
+                                                    <td><progress id="pro" value="0" max="100"></progress>
+                                                    <button type="button" style="background:aquamarine;border-radius: 15px" onclick="load(100)">下载</button></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2" align="center"><input type="submit" value="确定" style="background:palevioletred;border-radius: 15px">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="submit" value="取消" style="background:paleturquoise;border-radius: 15px"></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
