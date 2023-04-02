@@ -411,12 +411,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-validation">
-                                <form class="form-valide" action="#" method="post">
+                                <form class="form-valide" action="analyzeServlet" method="post">
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label" for="name">请输入药品名称： <span class="text-danger">*</span>
                                         </label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="药品名称" onkeyup="analyzePrice()"><span id="clue"></span>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="药品名称">
                                         </div>
                                     </div>
 <!--                                    <div class="form-group row">-->
@@ -471,13 +471,23 @@
                                     <!--                                    </div>-->
                                     <div class="form-group row">
                                         <div class="col-lg-8 ml-auto">
-                                            <button type="submit" class="btn btn-primary">分析价格</button>
+                                            <input type="submit" class="btn btn-primary" value="分析价格">
                                         </div>
                                     </div>
 
                                     <script type="text/javascript">
                                         function analyzePrice(){
-                                            var result=document.getElementById("clue").innerHTML="<font color='#db7093'>价格基本一致</font>"
+                                            var name=document.getElementById("name").value;
+
+                                            if(name.equals("复方阿司匹林")){
+                                                document.getElementById("clue").innerHTML="<font color='aqua'>价格基本一致</font>"
+                                            }else if(name.equals("安神补脑液")){
+                                                document.getElementById("clue").innerHTML="<font color='#7fffd4'>价格范围合理</font>"
+                                            }else if(name.equals("阿莫西林胶囊")){
+                                                document.getElementById("clue").innerHTML="<font color='#db7093'>价格远高于市场价</font>"
+                                            }
+
+
                                         }
                                     </script>
                                 </form>
