@@ -47,7 +47,7 @@
 
                             <a class="text-center" href="index.html"> <h4>返回</h4></a>
 
-                            <form class="mt-5 mb-5 login-input">
+                            <form class="mt-5 mb-5 login-input" action="RegisterServlet" method="post">
                                 <div class="form-group">
                                     <input type="text" class="form-control"  placeholder="账号" required>
                                 </div>
@@ -64,10 +64,9 @@
                                     </select>
                                 </div>
                                 <hr class="my-4">
-                                <button class="btn login-form__btn submit w-100">注册</button>
+                                <input class="btn login-form__btn submit w-100" type="submit" value="注册">
                             </form>
                             <p class="mt-5 login-form__footer">拥有账号？ <a href="login.html" class="text-primary">登录</a> </p>
-                            </p>
                         </div>
                     </div>
                 </div>
