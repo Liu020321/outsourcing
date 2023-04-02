@@ -255,7 +255,7 @@
                     <ul aria-expanded="false">
                         <li><a href="./doctorRegistered.html">分析价格</a></li>
                         <li><a href="./historyRecord.html">查看历史纪录</a></li>
-                        <li><a href="./layout-two-column.html">Two column</a></li>
+                        <li><a href="./checkCount.html">查询前面的排队人数</a></li>
                         <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                         <li><a href="./layout-vertical.html">Vertical</a></li>
                         <li><a href="./layout-horizontal.html">Horizontal</a></li>
@@ -411,36 +411,36 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-validation">
-                                <form class="form-valide" action="#" method="post">
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="name">患者姓名： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="患者姓名">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="sex">患者性别： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="radio" id="sex" name="sex" value="男">男&nbsp;&nbsp;
-                                            <input type="radio" name="sex" value="女">女
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="age">患者年龄： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="age" name="age" placeholder="患者年龄">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="symptom">患者症状： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="symptom" name="symptom" placeholder="患者症状">
-                                        </div>
-                                    </div>
+                                <form class="form-valide" action="historyRecordResult.html" method="post">
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="name">患者姓名： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="text" class="form-control" id="name" name="name" placeholder="患者姓名">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="sex">患者性别： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="radio" id="sex" name="sex" value="男">男&nbsp;&nbsp;-->
+<!--                                            <input type="radio" name="sex" value="女">女-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="age">患者年龄： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="text" class="form-control" id="age" name="age" placeholder="患者年龄">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="symptom">患者症状： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="text" class="form-control" id="symptom" name="symptom" placeholder="患者症状">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <!--                                    <div class="form-group row">-->
                                     <!--                                        <label class="col-lg-4 col-form-label" for="val-skill">Best Skill <span class="text-danger">*</span>-->
                                     <!--                                        </label>-->
@@ -471,7 +471,7 @@
                                     <!--                                    </div>-->
                                     <div class="form-group row">
                                         <div class="col-lg-8 ml-auto">
-                                            <button type="submit" class="btn btn-primary">挂号</button>
+                                            <button type="submit" class="btn btn-primary">查看历史记录</button>
                                         </div>
                                     </div>
                                 </form>
