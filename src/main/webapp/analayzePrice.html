@@ -413,34 +413,34 @@
                             <div class="form-validation">
                                 <form class="form-valide" action="#" method="post">
                                     <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="name">患者姓名： <span class="text-danger">*</span>
+                                        <label class="col-lg-4 col-form-label" for="name">请输入药品名称： <span class="text-danger">*</span>
                                         </label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="患者姓名">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="药品名称" onkeyup="analyzePrice()"><span id="clue"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="sex">患者性别： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="radio" id="sex" name="sex" value="男">男&nbsp;&nbsp;
-                                            <input type="radio" name="sex" value="女">女
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="age">患者年龄： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="age" name="age" placeholder="患者年龄">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="symptom">患者症状： <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="symptom" name="symptom" placeholder="患者症状">
-                                        </div>
-                                    </div>
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="sex">患者性别： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="radio" id="sex" name="sex" value="男">男&nbsp;&nbsp;-->
+<!--                                            <input type="radio" name="sex" value="女">女-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="age">患者年龄： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="text" class="form-control" id="age" name="age" placeholder="患者年龄">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label class="col-lg-4 col-form-label" for="symptom">患者症状： <span class="text-danger">*</span>-->
+<!--                                        </label>-->
+<!--                                        <div class="col-lg-6">-->
+<!--                                            <input type="text" class="form-control" id="symptom" name="symptom" placeholder="患者症状">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <!--                                    <div class="form-group row">-->
                                     <!--                                        <label class="col-lg-4 col-form-label" for="val-skill">Best Skill <span class="text-danger">*</span>-->
                                     <!--                                        </label>-->
@@ -471,9 +471,15 @@
                                     <!--                                    </div>-->
                                     <div class="form-group row">
                                         <div class="col-lg-8 ml-auto">
-                                            <button type="submit" class="btn btn-primary">挂号</button>
+                                            <button type="submit" class="btn btn-primary">分析价格</button>
                                         </div>
                                     </div>
+
+                                    <script type="text/javascript">
+                                        function analyzePrice(){
+                                            var result=document.getElementById("clue").innerHTML="<font color='#db7093'>价格基本一致</font>"
+                                        }
+                                    </script>
                                 </form>
                             </div>
                         </div>
