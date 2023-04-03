@@ -2,7 +2,7 @@
     "use strict";
     var i=new Datamap( {
         scope: "world", element: document.getElementById("world-datamap"), responsive: !0, geographyConfig: {
-            popupOnHover: !1, highlightOnHover: !1, borderColor: "rgba(0,123,255,0.5)", borderWidth: 1, highlightBorderWidth: 3, highlightFillColor: "rgba(0,123,255,0.5)", highlightBorderColor: "rgba(255,255,255,0.1)", borderWidth: 1
+            popupOnHover: !1, highlightOnHover: !1, borderColor: "rgba(0,123,255,0.5)",  highlightBorderWidth: 3, highlightFillColor: "rgba(0,123,255,0.5)", highlightBorderColor: "rgba(255,255,255,0.1)", borderWidth: 1
         }
         , bubblesConfig: {
             popupTemplate: function (e, i) {

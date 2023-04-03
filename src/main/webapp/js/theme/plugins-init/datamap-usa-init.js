@@ -10,8 +10,7 @@
         geographyConfig: {
             popupOnHover: !1, 
             highlightOnHover: !1, 
-            borderColor: "transparent", 
-            borderWidth: 1, 
+            borderColor: "transparent",
             highlightBorderWidth: 3, 
             highlightFillColor: "rgba(0,123,255,0.5)", 
             highlightBorderColor: "transparent", 
