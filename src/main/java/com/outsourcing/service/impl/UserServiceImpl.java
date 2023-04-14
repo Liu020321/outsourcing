@@ -7,6 +7,8 @@ import com.outsourcing.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
@@ -22,6 +24,26 @@ public class UserServiceImpl implements UserService {
 
         return userLogin;
 
+    }
+
+    @Override
+    public boolean register(User user) {
+        //2. 获取SqlSession
+        SqlSession sqlSession = factory.openSession();
+        //3. 获取UserMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        //4. 判断用户名是否存在
+        User u = mapper.selectByUserName(user.getUserName());
+
+        if(u == null){
+            // 用户名不存在，注册
+            mapper.add(user);
+            sqlSession.commit();
+        }
+        sqlSession.close();
+
+        return u == null;
     }
 
 }
