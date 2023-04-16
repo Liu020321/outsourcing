@@ -13,4 +13,6 @@ public interface UserService {
     boolean register(User user);
 
     List<patient> getPatientByStatus(String status);
+
+    boolean changeStatus(int id);
 }

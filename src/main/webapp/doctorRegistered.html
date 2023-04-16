@@ -9,6 +9,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/theme/favicon.png">
     <!-- Custom Stylesheet -->
     <link href="css/theme/style.css" rel="stylesheet">
+    <script src="js/axios.js"></script>
+    <script src="js/vue.js"></script>
 
 </head>
 
@@ -317,47 +319,32 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">申请挂号列表</h4>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered zero-configuration">
-                                    <thead>
-                                    <tr>
-                                        <th>姓名</th>
-                                        <th>性别</th>
-                                        <th>年龄</th>
-                                        <th>相关症状</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                            <div id="dr">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                        <tr>
+                                            <th>姓名</th>
+                                            <th>性别</th>
+                                            <th>年龄</th>
+                                            <th>相关症状</th>
+                                            <th>相关操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                                    <tr v-for="">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>内科</td>
-                                        <td>2023.02.01</td>
-                                        <td>失眠</td>
-                                    </tr>
-                                    <tr>
-                                        <td>内科</td>
-                                        <td>2023.03.04</td>
-                                        <td>失眠</td>
-                                    </tr>
-                                    <tr>
-                                        <td>肠胃科</td>
-                                        <td>2023.03.29</td>
-                                        <td>胃痛</td>
-                                    </tr>
-                                    <tr>
-                                        <td>肠胃科</td>
-                                        <td>2023.04.01</td>
-                                        <td>食欲不振</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                        <tr v-for="(dr,index) in list" :key="index">
+                                            <td>{{dr.name}}</td>
+                                            <td>{{dr.sex}}</td>
+                                            <td>{{dr.age}}</td>
+                                            <td>{{dr.symptom}}</td>
+                                            <td><button type="button" name="button" class="btn btn-primary" @click="changeStatus(dr.id)">挂号</button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -368,7 +355,42 @@
     <!--**********************************
         Content body end
     ***********************************-->
+<script>
+    new Vue({
+        el:"#dr",
+        data:{
+            list:[]
+        },
+        //刷新界面
+        mounted(){
+            this.selectPatient()
+        },
 
+        methods:{
+            //查找到所有数据
+            selectPatient(){
+                axios.get("http://localhost:8080/outsourcing/doctorRegisteredServlet/doGet").then(resp=>{
+                    this.list=resp.data
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+
+            //为患者挂号--将患者状态修改为已挂号
+            changeStatus(id){
+                axios.get("http://localhost:8080/outsourcing/doctorRegisteredChangeServlet/doGet?id="+id).then(resp=>{
+                    if(resp.data==="success"){
+                        console.log("success");
+                    }else{
+                        console.log("fail");
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+        }
+    })
+</script>
 
     <!--**********************************
         Footer start

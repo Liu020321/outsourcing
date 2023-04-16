@@ -41,7 +41,8 @@ public class patient {
         this.status = status;
     }
 
-    public patient(String name, String sex, int age, String symptom,String status) {
+    public patient(int id,String name, String sex, int age, String symptom,String status) {
+        this.id=id;
         this.name = name;
         this.sex = sex;
         this.age = age;
@@ -53,6 +54,15 @@ public class patient {
         super();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private String name;
     private String sex;
     private int age;

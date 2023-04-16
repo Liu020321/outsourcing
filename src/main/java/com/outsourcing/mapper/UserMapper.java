@@ -2,10 +2,7 @@ package com.outsourcing.mapper;
 
 import com.outsourcing.pojo.User;
 import com.outsourcing.pojo.patient;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -31,4 +28,34 @@ public interface UserMapper {
     @Select("select * from patient where status=#{status}")
     List<patient> getPatientByStatus(String status);
 
+    @Update("update patient set status where id=#{id}")
+    boolean changeStatus(int id);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
