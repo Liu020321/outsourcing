@@ -2,6 +2,7 @@ package com.outsourcing.service.impl;
 
 import com.outsourcing.mapper.UserMapper;
 import com.outsourcing.pojo.User;
+import com.outsourcing.pojo.medicine;
 import com.outsourcing.pojo.patient;
 import com.outsourcing.service.UserService;
 import com.outsourcing.util.SqlSessionFactoryUtils;
@@ -69,6 +70,40 @@ public class UserServiceImpl implements UserService {
         sqlSession.commit();
         sqlSession.close();
         return b;
+    }
+
+    public List<medicine> getMedicineByType(String type){
+        //2. 获取SqlSession
+        SqlSession sqlSession = factory.openSession();
+        //3. 获取UserMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        List<medicine> list=mapper.getMedicineByType(type);
+        sqlSession.close();
+        return list;
+    }
+
+    public boolean chooseMedicine(int id){
+        //2. 获取SqlSession
+        SqlSession sqlSession = factory.openSession();
+        //3. 获取UserMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        boolean b=mapper.chooseMedicine(id);
+        sqlSession.commit();
+        sqlSession.close();
+        return b;
+    }
+
+    public String getHistoryById(int id){
+        //2. 获取SqlSession
+        SqlSession sqlSession = factory.openSession();
+        //3. 获取UserMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        String history=mapper.getHistoryById(id);
+        sqlSession.close();
+        return history;
     }
 
 }

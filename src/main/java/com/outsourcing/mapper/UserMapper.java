@@ -1,6 +1,7 @@
 package com.outsourcing.mapper;
 
 import com.outsourcing.pojo.User;
+import com.outsourcing.pojo.medicine;
 import com.outsourcing.pojo.patient;
 import org.apache.ibatis.annotations.*;
 
@@ -28,8 +29,17 @@ public interface UserMapper {
     @Select("select * from patient where status=#{status}")
     List<patient> getPatientByStatus(String status);
 
-    @Update("update patient set status where id=#{id}")
+    @Update("update patient set status=#{status} where id=#{id}")
     boolean changeStatus(int id);
+
+    @Select("select * from medicine where type like concat('%',#{type},'%')")
+    List<medicine> getMedicineByType(String type);
+
+    @Update("update patient set history=#{history} where id=#{id}")
+    boolean chooseMedicine(int id);
+
+    @Select("select history from where id=#{id}")
+    String getHistoryById(int id);
 
 }
 

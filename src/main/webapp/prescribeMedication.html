@@ -10,6 +10,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/theme/favicon.png">
   <!-- Custom Stylesheet -->
   <link href="css/theme/style.css" rel="stylesheet">
+  <script src="js/axios.js"></script>
+  <script src="js/vue.js"></script>
 
 </head>
 
@@ -316,9 +318,10 @@
       <div class="row">
         <div class="col-12">
           <!-- Card -->
+          <div id="pre">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">肠胃方面：</h4>
+              <h4 class="card-title">感冒方面：</h4>
 <!--              <h6 class="card-subtitle">Use <code>.bootstrapMaterialDatePicker</code> to create it.</h6>-->
               <div class="row form-material">
                 <div class="col-md-6">
@@ -326,11 +329,18 @@
 <!--                  <input type="text" class="form-control" placeholder="2017-06-04" id="mdate">-->
 <!--                  <label class="m-t-40">Default Material Date Timepicker</label>-->
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="checkbox"name="y1" value="奥美拉唑"> <span class="css-control-indicator"></span> 奥美拉唑
+                  <table>
+                    <tr v-for="(pre,index) in list1" :key="index">
+                      <td><input type="checkbox"name="y1" value="{{pre.name}}">
+                        <span class="css-control-indicator"></span>{{pre.name}}</td>
+                    </tr>
+                  </table>
+
+
                   &nbsp;&nbsp;
-                  <input type="checkbox"name="y2" value="吗丁啉"> <span class="css-control-indicator"></span> 吗丁啉
-                  &nbsp;&nbsp;
-                  <input type="checkbox"name="y3" value="达喜"> <span class="css-control-indicator"></span> 达喜
+<!--                  <input type="checkbox"name="y2" value="吗丁啉"> <span class="css-control-indicator"></span> 吗丁啉-->
+<!--                  &nbsp;&nbsp;-->
+<!--                  <input type="checkbox"name="y3" value="达喜"> <span class="css-control-indicator"></span> 达喜-->
 
 
                 </div>
@@ -341,7 +351,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">失眠方面：</h4>
+              <h4 class="card-title">胃方面：</h4>
               <!--              <h6 class="card-subtitle">Use <code>.bootstrapMaterialDatePicker</code> to create it.</h6>-->
               <div class="row form-material">
                 <div class="col-md-6">
@@ -364,7 +374,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">感冒方面：</h4>
+              <h4 class="card-title">头方面：</h4>
               <!--              <h6 class="card-subtitle">Use <code>.bootstrapMaterialDatePicker</code> to create it.</h6>-->
               <div class="row form-material">
                 <div class="col-md-6">
@@ -403,7 +413,7 @@
 
                   <div class="form-group row" align="center">
                     <div class="col-lg-8 ml-auto" align="center">
-                      <button type="submit" class="btn btn-primary">开药</button>
+                      <button type="button" name="button" class="btn btn-primary" @click="chooseMedicine(pre.id)">开药</button>
                     </div>
                   </div>
 
@@ -413,12 +423,58 @@
             </div>
           </div>
 
+          </div>
+
         </div>
       </div>
     </div>
     </form>
     <!-- #/ container -->
   </div>
+
+  <script>
+    new Vue({
+      el:"#pre",
+      data:{
+        medicine:{
+          name:''
+        },
+        list1:[],
+        list2:[],
+        list3:[]
+      },
+
+      mounted(){
+        this.getAllMedicine()
+      },
+
+      methods:{
+
+        //获取所有药品数据
+        getAllMedicine(){
+          axios.post("http://localhost:8080/outsourcing/prescribeMedicineServlet/doGet").then(res=>{
+            this.list1=res.data
+          }).catch(err=>{
+            console.log(err);
+          })
+        },
+
+        //获取到我选择的药品数据
+        chooseMedicine(id){
+          axios.get("http://localhost:8080/outsourcing/chooseMedicineServlet/doGet?id="+id).then(resp=>{
+            if(resp.data==="success"){
+              console.log("success");
+            }else{
+              console.log("fail");
+            }
+          }).catch(err=>{
+            console.log(err);
+          })
+        }
+      }
+
+    })
+  </script>
   <!--**********************************
       Content body end
   ***********************************-->
