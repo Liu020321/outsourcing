@@ -68,19 +68,6 @@
       <version>1.2.67_noneautotype2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/taglibs/standard -->
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -93,7 +80,7 @@
         <version>2.2</version>
         <configuration>
           <port>8080</port>
-          <!--<path>/</path>-->
+<!--          <path>/index.html</path>-->
         </configuration>
       </plugin>
     </plugins>

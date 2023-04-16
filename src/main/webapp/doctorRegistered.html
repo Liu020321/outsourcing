@@ -9,8 +9,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/theme/favicon.png">
     <!-- Custom Stylesheet -->
     <link href="css/theme/style.css" rel="stylesheet">
-    <script src="js/axios.js"></script>
-    <script src="js/vue.js"></script>
 
 </head>
 
@@ -42,10 +40,10 @@
     <div class="nav-header">
         <div class="brand-logo">
             <a href="index.html">
-                <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
+                <b class="logo-abbr"><img src="images/theme/logo.png" alt=""> </b>
+                <span class="logo-compact"><img src="./images/theme/logo-compact.png" alt=""></span>
                 <span class="brand-title">
-                        <img src="images/logo-text.png" alt="">
+                        <img src="images/theme/logo-text.png" alt="">
                     </span>
             </a>
         </div>
@@ -355,42 +353,6 @@
     <!--**********************************
         Content body end
     ***********************************-->
-<script>
-    new Vue({
-        el:"#dr",
-        data:{
-            list:[]
-        },
-        //刷新界面
-        mounted(){
-            this.selectPatient()
-        },
-
-        methods:{
-            //查找到所有数据
-            selectPatient(){
-                axios.get("http://localhost:8080/outsourcing/doctorRegisteredServlet/doGet").then(resp=>{
-                    this.list=resp.data
-                }).catch(err=>{
-                    console.log(err);
-                })
-            }
-
-            //为患者挂号--将患者状态修改为已挂号
-            changeStatus(id){
-                axios.get("http://localhost:8080/outsourcing/doctorRegisteredChangeServlet/doGet?id="+id).then(resp=>{
-                    if(resp.data==="success"){
-                        console.log("success");
-                    }else{
-                        console.log("fail");
-                    }
-                }).catch(err=>{
-                    console.log(err);
-                })
-            }
-        }
-    })
-</script>
 
     <!--**********************************
         Footer start
@@ -411,11 +373,51 @@
 <!--**********************************
     Scripts
 ***********************************-->
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+
 <script src="plugins/common/common.min.js"></script>
 <script src="js/theme/custom.min.js"></script>
 <script src="js/theme/settings.js"></script>
 <script src="js/theme/gleek.js"></script>
 <script src="js/theme/styleSwitcher.js"></script>
+
+<script>
+    new Vue({
+        el:"#dr",
+        data:{
+            list:[]
+        },
+        //刷新界面
+        mounted(){
+            this.selectPatient()
+        },
+
+        methods:{
+            //查找到所有数据
+            selectPatient(){
+                axios.get("http://localhost:8080/outsourcing/doctorRegisteredServlet/doGet").then(resp=>{
+                    this.list=resp.data
+                }).catch(err=>{
+                    console.log(err);
+                })
+            },
+
+            //为患者挂号--将患者状态修改为已挂号
+            changeStatus(id){
+                axios.get("http://localhost:8080/outsourcing/doctorRegisteredChangeServlet/doGet?id="+id).then(resp=>{
+                    if(resp.data==="success"){
+                        console.log("success");
+                    }else{
+                        console.log("fail");
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+        }
+    })
+</script>
 
 </body>
 

@@ -16,7 +16,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         //判断访问资源路径是否和登录注册相关
-        String[] urls = {"/index.html","/plugins/","/login.html","/images/","/css/","/js/","/fonts/","/icons/","/UserServlet","/register.html","/user/register","/user/checkCode","/user/login"};
+        String[] urls = {"/plugins/","/login.html","/images/","/css/","/js/","/fonts/","/icons/","/UserServlet","/register.html","/user/register","/user/checkCode","/user/login"};
         // 获取当前访问的资源路径
         String url = req.getRequestURL().toString();
 
