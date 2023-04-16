@@ -1,6 +1,7 @@
 package com.outsourcing.mapper;
 
 import com.outsourcing.pojo.User;
+import com.outsourcing.pojo.patient;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -26,4 +27,8 @@ public interface UserMapper {
 
     @Insert("insert into tb_user values(null,#{userName},#{password},#{status})")
     void add(User user);
+
+    @Select("select * from patient where status=#{status}")
+    List<patient> getPatientByStatus(String status);
+
 }

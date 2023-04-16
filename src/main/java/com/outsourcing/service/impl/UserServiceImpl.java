@@ -2,6 +2,7 @@ package com.outsourcing.service.impl;
 
 import com.outsourcing.mapper.UserMapper;
 import com.outsourcing.pojo.User;
+import com.outsourcing.pojo.patient;
 import com.outsourcing.service.UserService;
 import com.outsourcing.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -44,6 +45,18 @@ public class UserServiceImpl implements UserService {
         sqlSession.close();
 
         return u == null;
+    }
+
+    public List<patient> getPatientByStatus(String status){
+        //2. 获取SqlSession
+        SqlSession sqlSession = factory.openSession();
+        //3. 获取UserMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        List<patient> list=mapper.getPatientByStatus(status);
+
+        sqlSession.close();
+        return list;
     }
 
 }
