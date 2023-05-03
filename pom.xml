@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
-      <version>8.0.32</version>
+      <version>8.0.33</version>
     </dependency>
     <!-- 添加slf4j日志api -->
     <dependency>
@@ -80,7 +80,7 @@
         <version>2.2</version>
         <configuration>
           <port>8080</port>
-<!--          <path>/index.html</path>-->
+          <!--          <path>/index.html</path>-->
         </configuration>
       </plugin>
     </plugins>
