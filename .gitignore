@@ -1,3 +1,36 @@
-.idea/
-.vscode/
+*.class
+*.log
+*.lock
+
+# Package Files #
+*.jar
+*.war
+*.ear
 target/
+
+# idea
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
+
+*velocity.log*
+
+### STS ###
+.apt_generated
+.factorypath
+.springBeans
+
+*.log
+tmp/
+
+# rebel
+*rebel.xml*
+
+# vscode
+.vscode/
