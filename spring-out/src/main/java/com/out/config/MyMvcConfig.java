@@ -19,15 +19,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
         //3D操作路由
         registry.addViewController("/importPictures").setViewName("3D_Operate/importPictures");
         registry.addViewController("/viewResult").setViewName("3D_Operate/viewResult");
-        registry.addViewController("/processResult").setViewName("3D_Operate/processResult");
         registry.addViewController("/historicalAnalysis").setViewName("3D_Operate/historicalAnalysis");
         //医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
         registry.addViewController("/processRecord").setViewName("patient/processRecord");
-        //医生操作
-        registry.addViewController("/checkCalendar").setViewName("work/checkCalendar");
-        registry.addViewController("/medicalConference").setViewName("work/medicalConference");
-        registry.addViewController("/otherRequests").setViewName("work/todo");
         //治疗操作
         registry.addViewController("/inHospital").setViewName("govern/inHospital");
         registry.addViewController("/medicare").setViewName("govern/medicare");

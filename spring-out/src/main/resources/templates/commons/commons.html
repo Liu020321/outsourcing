@@ -160,7 +160,7 @@
     <div class="iq-sidebar-logo d-flex justify-content-between">
         <a th:href="@{index.html}">
             <img th:src="@{images/logo.gif}" class="img-fluid" alt="">
-            <span>三刘一陈</span>
+            <span>3D 医疗</span>
         </a>
         <div class="iq-menu-bt-sidebar">
             <div class="iq-menu-bt align-self-center">
@@ -183,8 +183,8 @@
                     <a href="#userinfo" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-user-line"></i><span>医疗</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
                     <ul id="userinfo" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                         <li><a th:href="@{importPictures}"><i class="ri-profile-line"></i>导入医疗图片</a></li>
-                        <li ><a th:href="@{http://localhost:3000/}"><i class="ri-file-edit-line"></i>查看处理结果</a></li>
-                        <li th:class="${active2=='processResult.html'?'active':''}"><a th:href="@{processResult}"><i class="ri-user-add-line"></i>处理结果集合</a></li>
+                        <li ><a th:href="@{https://viewer.ohif.org/}"><i class="ri-file-edit-line"></i>查看处理结果</a></li>
+<!--                        <li th:class="${active2=='processResult.html'?'active':''}"><a th:href="@{processResult}"><i class="ri-user-add-line"></i>处理结果集合</a></li>-->
                         <li><a th:href="@{historicalAnalysis}"><i class="ri-file-list-line"></i>历史分析</a></li>
                     </ul>
                 </li>
@@ -195,9 +195,6 @@
                         <li><a th:href="@{processRecord}"><i class="ri-edit-line"></i>处理记录</a></li>
                     </ul>
                 </li>
-                <li><a th:href="@{todo}" class="iq-waves-effect" aria-expanded="false"><i class="ri-chat-check-line"></i><span>待办日程</span></a></li>
-                <li><a th:href="@{checkCalendar}" class="iq-waves-effect"><i class="ri-calendar-2-line"></i><span>查看日历</span></a></li>
-                <li><a th:href="@{medicalConference}" class="iq-waves-effect"><i class="ri-message-line"></i><span>医疗会议</span></a></li>
                 <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>其他请求</span></li>
                 <li>
                     <a href="#ui-elements" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-pencil-ruler-line"></i><span>诊断结果</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
