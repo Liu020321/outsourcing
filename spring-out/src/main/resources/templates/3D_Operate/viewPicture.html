@@ -86,6 +86,8 @@
 <script src="js/chart-custom.js"></script>
 <!-- Custom JavaScript -->
 <script src="js/custom.js"></script>
+
+
 <script src="js/cornerstone/cornerstone.js"></script>
 <script src="js/cornerstone/cornerstoneMath.js"></script>
 <script src="js/cornerstone/cornerstoneTools.js"></script>
@@ -98,6 +100,7 @@
     mounted() {
       const imageCanvas = document.getElementById('imageCanvas');
       const cornerstone = window.cornerstone;
+      const niftiReader = window.niftiReader;
 
       cornerstone.enable(imageCanvas);
 
@@ -106,13 +109,26 @@
       fetch(apiURL)
               .then(response => response.arrayBuffer())
               .then(arrayBuffer => {
-                const imageId = cornerstone.addLayer(imageCanvas, {
-                  image: arrayBuffer,
-                  height: 512, // 替换为实际图像高度
-                  width: 512, // 替换为实际图像宽度
-                  color: 'red', // 替换为实际图像颜色
-                  label: 'NIfTI Image' // 替换为实际图像标签
-                });
+                const nifti = niftiReader.read(arrayBuffer);
+
+                const image = {
+                  imageId: 'nifti:',
+                  minPixelValue: nifti.minPixelValue,
+                  maxPixelValue: nifti.maxPixelValue,
+                  slope: 1,
+                  intercept: 0,
+                  windowCenter: (nifti.maxPixelValue - nifti.minPixelValue) / 2,
+                  windowWidth: nifti.maxPixelValue - nifti.minPixelValue,
+                  getPixelData: () => nifti.imageData,
+                  rows: nifti.header.dims[1],
+                  columns: nifti.header.dims[2],
+                  height: nifti.header.dims[1],
+                  width: nifti.header.dims[2],
+                  color: 'red',
+                  label: 'NIfTI Image'
+                };
+
+                const imageId = cornerstone.addLayer(imageCanvas, image);
                 cornerstone.displayImage(imageCanvas, imageId);
               })
               .catch(error => {
