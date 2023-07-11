@@ -1,6 +1,8 @@
 package com.out.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,6 +22,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/importPictures").setViewName("3D_Operate/importPictures");
         registry.addViewController("/viewResult").setViewName("3D_Operate/viewResult");
         registry.addViewController("/historicalAnalysis").setViewName("3D_Operate/historicalAnalysis");
+        registry.addViewController("/viewPicture").setViewName("3D_Operate/viewPicture");
         //医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
         registry.addViewController("/processRecord").setViewName("patient/processRecord");
@@ -27,6 +30,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/inHospital").setViewName("govern/inHospital");
         registry.addViewController("/medicare").setViewName("govern/medicare");
         registry.addViewController("/prescribe").setViewName("govern/prescribe");
+
+        registry.addViewController("/med").setViewName("/examples/index.html");
 
     }
 }

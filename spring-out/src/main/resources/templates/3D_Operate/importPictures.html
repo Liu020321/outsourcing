@@ -37,7 +37,7 @@
     <!-- Responsive Breadcrumb End-->
     <!-- Page Content  -->
     <div id="content-page" class="content-page">
-        <div class="container-fluid">
+        <div class="container-fluid" id="file">
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="iq-card">
@@ -50,96 +50,33 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <ul id="top-tabbar-vertical" class="p-0">
-<!--                                        <li class="" id="payment">
-                                            <a href="javascript:void();">
-                                                <i class="ri-check-fill text-warning"></i><span>导入图片</span>
-                                            </a>
-                                        </li>-->
+
                                         <li id="official">
-                                            <a href="javascript:void();">
+                                            <a href="#" @click="chooseFile">
                                                 <i class="ri-camera-fill text-success"></i><span>导入图片</span>
                                             </a>
+                                            <input type="file" ref="fileInput" style="display: none"
+                                                   @change="handleFileChange"/>
                                         </li>
                                     </ul>
                                 </div>
-
                                 <div class="col-md-9">
-                                    <ul class="iq-timeline">
-                                        <li>
-                                            <div class="timeline-dots"></div>
-                                            <h6 class="float-left mb-1">开始导入</h6>
-                                            <small class="float-right mt-1">2023年6月16日16：00：35</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>开始导入图片并准备进行处理</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-success"></div>
-                                            <h6 class="float-left mb-1">处理图片</h6>
-                                            <small class="float-right mt-1">2023年6月16日16：01：30</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>正在对图片信息进行处理</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-danger"></div>
-                                            <h6 class="float-left mb-1">处理完成</h6>
-                                            <small class="float-right mt-1">2023年6月16日16：09：30</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>图片信息已经处理完成，点击查看结果</p>
-                                            </div>
-                                        </li>
-                                       <!-- <li>
-                                            <div class="timeline-dots border-primary"></div>
-                                            <h6 class="float-left mb-1">Client Meeting</h6>
-                                            <small class="float-right mt-1">19 November 2019</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-info"></div>
-                                            <h6 class="float-left mb-1">Client Meeting</h6>
-                                            <small class="float-right mt-1">19 November 2019</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-info"></div>
-                                            <h6 class="float-left mb-1">Client Meeting</h6>
-                                            <small class="float-right mt-1">19 November 2019</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-warning"></div>
-                                            <h6 class="float-left mb-1">Client Meeting</h6>
-                                            <small class="float-right mt-1">19 November 2019</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="timeline-dots border-info"></div>
-                                            <h6 class="float-left mb-1">Client Meeting</h6>
-                                            <small class="float-right mt-1">19 November 2019</small>
-                                            <div class="d-inline-block w-100">
-                                                <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
-                                            </div>
-                                        </li>-->
-                                    </ul>
+                                    <button type="button" class="btn btn-primary btn-sm mr-2"
+                                            @click="executeCommand" :disabled="executing">执行命令
+                                    </button>
+                                    <h5>Command Output:</h5>
+                                    <pre id="output">{{ output }}</pre>
+
                                 </div>
                             </div>
-                            </div>
-
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- Wrapper END -->
 <!-- Footer -->
@@ -149,5 +86,59 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 <div th:replace="~{commons/commons::js}"></div>
+
+<script>
+    new Vue({
+        el: "#file",
+        mounted() {
+        },
+        data() {
+            return {
+                selectedFile: null,
+                showFeedback: false,
+                feedback: '',
+                output: '',
+                executing: false
+            }
+        },
+        methods: {
+            chooseFile() {
+                this.$refs.fileInput.click();
+            },
+            handleFileChange(event) {
+                const file = event.target.files[0];
+                this.uploadFile(file);
+            },
+            uploadFile(file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                axios.post('/api/files/upload', formData)
+                    .then(response => {
+                        alert('文件上传成功，新文件名为: ' + response.data);
+                    })
+                    .catch(error => {
+                        console.error('文件上传失败', error);
+                    });
+            },
+            executeCommand() {
+                this.executing = true;
+                this.output = '';
+
+                axios.get('/api/execute')
+                    .then(response => {
+                        this.output = response.data;
+                        console.log(response.data);
+                        this.executing = false;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        this.output = 'Error: ' + error.response.data;
+                        this.executing = false;
+                    });
+            }
+        }
+    })
+</script>
 </body>
 </html>
