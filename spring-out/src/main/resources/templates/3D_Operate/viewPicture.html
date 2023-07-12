@@ -1,50 +1,69 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head >
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Vito - Responsive Bootstrap 4 Admin Dashboard Template</title>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Vito - Responsive Bootstrap 4 Admin Dashboard Template</title>
 
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-  <!-- Typography CSS -->
-  <link rel="stylesheet" th:href="@{css/typography.css}">
-  <!-- Style CSS -->
-  <link rel="stylesheet" th:href="@{css/style.css}">
-  <!-- Responsive CSS -->
-  <link rel="stylesheet" th:href="@{css/responsive.css}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <!-- Typography CSS -->
+    <link rel="stylesheet" th:href="@{css/typography.css}">
+    <!-- Style CSS -->
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" th:href="@{css/responsive.css}">
+    <link rel="stylesheet" href="js/cornerstone/cornerstone.min.css"/>
 </head>
 <body>
 <!-- loader Start -->
 <div id="loading">
-  <div id="loading-center">
-  </div>
+    <div id="loading-center">
+    </div>
 </div>
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
-  <!-- Sidebar  -->
-  <div th:replace="~{commons/commons::sidebar}"></div>
-  <!-- TOP Nav Bar -->
-  <div th:replace="~{commons/commons::topnavbar}"></div>
-  <!-- TOP Nav Bar END -->
-  <!-- Responsive Breadcrumb End-->
-  <!-- Page Content  -->
-  <div id="content-page" class="content-page">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <div id="app">
-            <canvas id="imageCanvas"></canvas>
-          </div>
+    <!-- Sidebar  -->
+    <div th:replace="~{commons/commons::sidebar}"></div>
+    <!-- TOP Nav Bar -->
+    <div th:replace="~{commons/commons::topnavbar}"></div>
+    <!-- TOP Nav Bar END -->
+    <!-- Responsive Breadcrumb End-->
+    <!-- Page Content  -->
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div id="app">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group form-row">
+                                <label class="col-form-label col-sm-1" for="nifti-URL">URL</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" type="text" id="nifti-URL" placeholder="Enter URL to NIFTI file">
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-primary" type="button" id="download-and-view" @click="downloadAndView">Download and View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section id="image-and-data-info">
+                        <div id="nifti-image-container">
+                            <div id="nifti-image"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
+
 </div>
 <!-- Wrapper END -->
 <!-- Footer -->
@@ -94,50 +113,100 @@
 <script src="js/cornerstone/cornerstoneFileImageLoader.js"></script>
 <script src="js/cornerstone/cornerstoneNIFTIImageLoader.js"></script>
 <script>
-  // app.js
-  new Vue({
-    el: '#app',
-    mounted() {
-      const imageCanvas = document.getElementById('imageCanvas');
-      const cornerstone = window.cornerstone;
-      const niftiReader = window.niftiReader;
+    cornerstoneNIFTIImageLoader.external.cornerstone = cornerstone;
+    const ImageId = cornerstoneNIFTIImageLoader.nifti.ImageId;
+    let loaded = false;
 
-      cornerstone.enable(imageCanvas);
+    const app = new Vue({
+        el: '#app',
+        methods: {
+            loadAndViewImage(imageId) {
+                const element = document.getElementById('nifti-image');
 
-      const apiURL = '/api/nifti'; // 替换为您的 API URL
+                try {
+                    const start = new Date().getTime();
+                    cornerstone.loadAndCacheImage(imageId).then(function(image) {
+                        console.log(image);
+                        const numberOfSlices = cornerstone.metaData.get('multiFrameModule', imageId).numberOfFrames;
+                        const stack = {
+                            currentImageIdIndex: 0,
+                            imageIds: Array.from(Array(numberOfSlices), (_, i) => `${imageId}#${i}`)
+                        };
 
-      fetch(apiURL)
-              .then(response => response.arrayBuffer())
-              .then(arrayBuffer => {
-                const nifti = niftiReader.read(arrayBuffer);
+                        const viewport = cornerstone.getDefaultViewportForImage(element, image);
+                        cornerstone.displayImage(element, image, viewport);
+                        if (loaded === false) {
+                            cornerstoneTools.addStackStateManager(element, ['stack', 'wwwc', 'pan', 'zoom']);
+                            cornerstoneTools.addToolState(element, 'stack', stack);
+                            cornerstoneTools.mouseInput.enable(element);
+                            cornerstoneTools.mouseWheelInput.enable(element);
+                            cornerstoneTools.wwwc.activate(element, 1);
+                            cornerstoneTools.pan.activate(element, 2);
+                            cornerstoneTools.zoom.activate(element, 4);
+                            cornerstoneTools.stackScrollWheel.activate(element);
+                            cornerstoneTools.orientationMarkers.enable(element);
+                            loaded = true;
+                        }
 
-                const image = {
-                  imageId: 'nifti:',
-                  minPixelValue: nifti.minPixelValue,
-                  maxPixelValue: nifti.maxPixelValue,
-                  slope: 1,
-                  intercept: 0,
-                  windowCenter: (nifti.maxPixelValue - nifti.minPixelValue) / 2,
-                  windowWidth: nifti.maxPixelValue - nifti.minPixelValue,
-                  getPixelData: () => nifti.imageData,
-                  rows: nifti.header.dims[1],
-                  columns: nifti.header.dims[2],
-                  height: nifti.header.dims[1],
-                  width: nifti.header.dims[2],
-                  color: 'red',
-                  label: 'NIfTI Image'
-                };
+                        const metaData = (type) => cornerstone.metaData.get(type, imageId);
 
-                const imageId = cornerstone.addLayer(imageCanvas, image);
-                cornerstone.displayImage(imageCanvas, imageId);
-              })
-              .catch(error => {
-                console.error(error);
-              });
-    }
-  });
+                        document.getElementById('samplesPerPixel').textContent = metaData('imagePixelModule').samplesPerPixel;
+                        document.getElementById('photometricInterpretation').textContent = metaData('imagePixelModule').photometricInterpretation;
+                        document.getElementById('numberOfFrames').textContent = metaData('multiFrameModule').numberOfFrames;
+                        document.getElementById('planarConfiguration').textContent = metaData('imagePixelModule').planarConfiguration;
+                        document.getElementById('rows').textContent = metaData('imagePixelModule').rows;
+                        document.getElementById('columns').textContent = metaData('imagePixelModule').columns;
+                        document.getElementById('pixelAspectRatio').textContent = metaData('imagePixelModule').pixelAspectRatio;
+                        document.getElementById('bitsAllocated').textContent = metaData('imagePixelModule').bitsAllocated;
+                        document.getElementById('bitsStored').textContent = metaData('imagePixelModule').bitsStored;
+                        document.getElementById('highBit').textContent = metaData('imagePixelModule').highBit;
+                        document.getElementById('pixelRepresentation').textContent = metaData('imagePixelModule').pixelRepresentation;
+                        document.getElementById('windowCenter').textContent = metaData('voiLutModule').windowCenter;
+                        document.getElementById('windowWidth').textContent = metaData('voiLutModule').windowWidth;
+                        document.getElementById('rescaleIntercept').textContent = metaData('modalityLutModule').rescaleIntercept;
+                        document.getElementById('rescaleSlope').textContent = metaData('modalityLutModule').rescaleSlope;
+                        document.getElementById('minStoredPixelValue').textContent = metaData('imagePixelModule').smallestPixelValue;
+                        document.getElementById('maxStoredPixelValue').textContent = metaData('imagePixelModule').largestPixelValue;
+                        const end = new Date().getTime();
+                        const time = end - start;
+                        document.getElementById('totalTime').textContent = `${time}ms`;
 
+                    }).catch(function(err) {
+                        alert(err);
+                        console.error(err);
+                    });
+                } catch(err) {
+                    alert(err);
+                    console.error(err);
+                }
+            },
+            downloadAndView() {
+                let url = document.getElementById('nifti-URL').value;
+
+                // 发起请求获取NII.GZ文件内容
+                axios({
+                    url: '/api/nifti',
+                    method: 'GET',
+                    responseType: 'blob'
+                }).then(response => {
+                    const file = new File([response.data], 'file.nii.gz');
+
+                    // 使用FileReader读取文件内容并将其转换为Base64编码
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        const base64data = reader.result;
+                        const imageId = `data:application/gzip;base64,${base64data}`;
+
+                        app.loadAndViewImage(imageId);
+                    };
+                    reader.readAsDataURL(file);
+                }).catch(error => {
+                    alert(error);
+                    console.error(error);
+                });
+            }
+        }
+    });
 </script>
-
 </body>
 </html>
