@@ -18,7 +18,7 @@ public class NiftiController {
     @GetMapping(value = "/api/nifti", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getNiftiFile() throws IOException {
         // 读取 NIFTI.GZ 文件内容
-        Resource resource = new ClassPathResource("D:\\21016\\Desktop\\outsourcing\\spring-out\\src\\main\\resources\\static\\nifti\\test.nii.gz");
+        Resource resource = new ClassPathResource("/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/nifti/test.nii.gz");
         InputStream inputStream = resource.getInputStream();
 
         // 设置响应头信息
