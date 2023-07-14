@@ -1,64 +1,77 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head >
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>查看处理结果</title>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
+    <link rel="shortcut icon" th:href="@{images/favicon.ico}" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
     <!-- Typography CSS -->
-    <link rel="stylesheet" th:href="@{css/typography.css}">
+    <link rel="stylesheet" th:href="@{css/typography.css}" />
     <!-- Style CSS -->
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
     <!-- Responsive CSS -->
-    <link rel="stylesheet" th:href="@{css/responsive.css}">
-</head>
-<body>
-<!-- loader Start -->
-<div id="loading">
-    <div id="loading-center">
+    <link rel="stylesheet" th:href="@{css/responsive.css}" />
+  </head>
+  <body>
+    <!-- loader Start -->
+    <div id="loading">
+      <div id="loading-center"></div>
     </div>
-</div>
-<!-- loader END -->
-<!-- Wrapper Start -->
-<div class="wrapper">
-    <!-- Sidebar  -->
-    <div th:replace="~{commons/commons::sidebar}"></div>
-    <!-- TOP Nav Bar -->
-    <div th:replace="~{commons/commons::topnavbar}"></div>
-    <!-- TOP Nav Bar END -->
-    <!-- Responsive Breadcrumb End-->
-    <!-- Page Content  -->
-    <div id="content-page" class="content-page">
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <div
+        th:replace="~{commons/commons::sidebar(active1='yiliao',active2='viewResult.html')}"
+      ></div>
+      <!-- TOP Nav Bar -->
+      <div th:replace="~{commons/commons::topnavbar}"></div>
+      <!-- TOP Nav Bar END -->
+      <!-- Responsive Breadcrumb End-->
+      <!-- Page Content  -->
+      <div id="content-page" class="content-page">
         <div class="container-fluid" id="result">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="iq-card">
-                        <div class="iq-card-header d-flex justify-content-between">
-                            <div class="iq-header-title">
-                                <h4 class="card-title">图像列表</h4>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="iq-card">
+                <div class="iq-card-header d-flex justify-content-between">
+                  <div class="iq-header-title">
+                    <h4 class="card-title">图像列表</h4>
+                  </div>
+                </div>
+                <div class="iq-card-body">
+                  <div class="table-responsive">
+                    <div class="row justify-content-between">
+                      <div class="col-sm-12 col-md-6">
+                        <div
+                          id="user_list_datatable_info"
+                          class="dataTables_filter"
+                        >
+                          <form class="mr-3 position-relative">
+                            <div class="form-group mb-0">
+                              <input
+                                type="search"
+                                class="form-control"
+                                id="exampleInputSearch"
+                                placeholder="Search"
+                                aria-controls="user-list-table"
+                              />
                             </div>
+                          </form>
                         </div>
-                        <div class="iq-card-body">
-                            <div class="table-responsive">
-                                <div class="row justify-content-between">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div id="user_list_datatable_info" class="dataTables_filter">
-                                            <form class="mr-3 position-relative">
-                                                <div class="form-group mb-0">
-                                                    <input type="search" class="form-control" id="exampleInputSearch" placeholder="Search" aria-controls="user-list-table">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <!--<div class="col-sm-12 col-md-6">
+                      </div>
+                      <!--<div class="col-sm-12 col-md-6">
                                         <div class="user-list-files d-flex float-right">
                                             <a class="iq-bg-primary" href="javascript:void();" >
                                                 Print
@@ -71,106 +84,177 @@
                                             </a>
                                         </div>
                                     </div>-->
-                                </div>
-                                <table id="user-list-table" class="table table-striped table-bordered mt-4" role="grid" aria-describedby="user-list-page-info">
-                                    <thead>
-                                    <tr>
-                                        <th>患者姓名</th>
-                                        <th>文件名称</th>
-                                        <th>文件格式</th>
-                                        <th>检查日期</th>
-                                        <th>描述</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(item, index) in results.fileName" :key="index">
-                                        <td>{{ results.patientName }}</td>
-                                        <td>{{ getFileNameWithoutExtension(item).name }}</td>
-                                        <td>{{ getFileNameWithoutExtension(item).type }}</td>
-                                        <td>{{ results.patientDate }}</td>
-                                        <td>{{ results.description }}</td>
-                                        <td>
-                                            <div class="flex align-items-center list-user-action">
-                                                <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add" href="#"><i class="ri-user-add-line"></i></a>
-                                                <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-pencil-line"></i></a>
-                                                <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row justify-content-between mt-3">
-                                <div id="user-list-page-info" class="col-md-6">
-                                    <span>Showing 1 to 5 of 5 entries</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end mb-0">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <table
+                      id="user-list-table"
+                      class="table table-striped table-bordered mt-4"
+                      role="grid"
+                      aria-describedby="user-list-page-info"
+                    >
+                      <thead>
+                        <tr>
+                          <th>患者姓名</th>
+                          <th>文件名称</th>
+                          <th>文件格式</th>
+                          <th>检查日期</th>
+                          <th>描述</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(item, index) in results.fileName"
+                          :key="index"
+                        >
+                          <td>{{ results.patientName }}</td>
+                          <td>{{ getFileNameWithoutExtension(item).name }}</td>
+                          <td>
+                            <span class="badge iq-bg-primary"
+                              >{{ getFileNameWithoutExtension(item).type
+                              }}</span
+                            >
+                          </td>
+                          <td>{{ results.patientDate }}</td>
+                          <td>{{ results.description }}</td>
+                          <td>
+                            <div
+                              class="flex align-items-center list-user-action"
+                            >
+                              <a
+                                class="iq-bg-primary"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="查看图像"
+                                href="#"
+                                @click="redirectToImage(getCombinedData(item))"
+                                ><i class="ri-user-add-line"></i
+                              ></a>
+                              <a
+                                class="iq-bg-primary"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="处理图像"
+                                href="#"
+                                ><i class="ri-pencil-line"></i
+                              ></a>
+                              <a
+                                class="iq-bg-primary"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="删除图像"
+                                href="#"
+                                ><i class="ri-delete-bin-line"></i
+                              ></a>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row justify-content-between mt-3">
+                    <div id="user-list-page-info" class="col-md-6">
+                      <span>Showing 1 to 5 of 5 entries</span>
+                    </div>
+                    <div class="col-md-6">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end mb-0">
+                          <li class="page-item disabled">
+                            <a
+                              class="page-link"
+                              href="#"
+                              tabindex="-1"
+                              aria-disabled="true"
+                              >Previous</a
+                            >
+                          </li>
+                          <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!-- Wrapper END -->
-<!-- Footer -->
-<div th:replace="~{commons/commons::footer}"></div>
-<!-- Footer END -->
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Wrapper END -->
+    <!-- Footer -->
+    <div th:replace="~{commons/commons::footer}"></div>
+    <!-- Footer END -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-<div th:replace="~{commons/commons::js}"></div>
+    <div th:replace="~{commons/commons::js}"></div>
 
-<script>
-    new Vue({
+    <script>
+      new Vue({
         el: '#result',
         data: {
-            results: {
-                patientName: '流浪',
-                fileName: [], // 修正为fileNames
-                patientDate: '2022-03-01',
-                description: '无'
-            }
+          results: {
+            patientName: '太子',
+            fileName: [], // 修正为fileNames
+            patientDate: '2022-03-01',
+            description: '无',
+          },
         },
         mounted() {
-            this.fetchFileNames();
+          this.fetchFileNames();
         },
         methods: {
-            fetchFileNames() {
-                axios.get('/files')
-                    .then(response => {
-                        this.results.fileName = response.data; // 修正为fileNames
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            },
-            getFileNameWithoutExtension(fileName) {
-                const name = fileName.split('.')[0];
-                const type = fileName.substring(name.length);
-                return {
-                    name: name,
-                    type: type
-                };
-            }
-        }
-    });
-</script>
-</body>
+          fetchFileNames() {
+            axios
+              .get('/files')
+              .then((response) => {
+                this.results.fileName = response.data; // 修正为fileNames
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          },
+          getFileNameWithoutExtension(fileName) {
+            const name = fileName.split('.')[0];
+            const type = fileName.substring(name.length);
+            return {
+              name: name,
+              type: type,
+            };
+          },
+          redirectToImage(imageId) {
+            axios({
+              method: 'post',
+              url: 'http://localhost:8081/redirect/?imageId=' + imageId,
+            }).then((resp) => {
+              if (resp.data === 'success') {
+                window.location.href =
+                  'http://localhost:8081/viewPicture?imageId=' + imageId;
+              } else {
+                alert('跳转失败');
+              }
+            });
+          },
+          getCombinedData(item) {
+            const name = this.getFileNameWithoutExtension(item).name;
+            const type = this.getFileNameWithoutExtension(item).type;
+            return `${name}${type}`;
+          },
+        },
+      });
+    </script>
+  </body>
 </html>

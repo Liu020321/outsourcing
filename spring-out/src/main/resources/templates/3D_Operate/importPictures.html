@@ -30,7 +30,7 @@
 <!-- Wrapper Start -->
 <div class="wrapper">
     <!-- Sidebar  -->
-    <div th:replace="~{commons/commons::sidebar}"></div>
+    <div th:replace="~{commons/commons::sidebar(active1='yiliao',active2='importPicture.html')}"></div>
     <!-- TOP Nav Bar -->
     <div th:replace="~{commons/commons::topnavbar}"></div>
     <!-- TOP Nav Bar END -->
@@ -48,24 +48,58 @@
                         </div>
                         <div class="iq-card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <ul id="top-tabbar-vertical" class="p-0">
 
-                                        <li id="official">
+                                        <li class="active" id="official">
                                             <a href="#" @click="chooseFile">
                                                 <i class="ri-camera-fill text-success"></i><span>导入图片</span>
                                             </a>
                                             <input type="file" ref="fileInput" style="display: none"
                                                    @change="handleFileChange"/>
                                         </li>
+                                        <li class="active" id="payment">
+                                            <a href="#" @click="executeCommand" :disabled="executing">
+                                                <i class="ri-check-fill text-warning"></i><span>开始推理</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-9">
-                                    <button type="button" class="btn btn-primary btn-sm mr-2"
-                                            @click="executeCommand" :disabled="executing">执行命令
-                                    </button>
-                                    <h5>Command Output:</h5>
-                                    <pre id="output">{{ output }}</pre>
+
+                                <div class="col-md-8">
+
+                                        <div class="iq-card">
+                                            <div class="iq-card-header d-flex justify-content-between">
+                                                <div class="iq-header-title">
+                                                    <h4 class="card-title">处理信息</h4>
+                                                </div>
+                                            </div>
+                                            <div class="iq-card-body">
+                                                <ul class="iq-timeline">
+                                                    <li>
+                                                        <div class="timeline-dots"></div>
+                                                        <h4 class="float-left mb-1">是否开始处理</h4>
+                                                        <div class="d-inline-block w-100">
+                                                            <p><pre id="begin"><h5>{{ begin}}</h5></pre></p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="timeline-dots border-danger"></div>
+                                                        <h4 class="float-left mb-1">处理是否完成</h4>
+                                                        <div class="d-inline-block w-100">
+                                                            <p><pre id="end"><h5>{{end}}</h5></pre></p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="timeline-dots border-success"></div>
+                                                        <h4 class="float-left mb-1">处理信息</h4>
+                                                        <div class="d-inline-block w-100">
+                                                            <p><pre id="output"><h5>{{ output }}</h5></pre></p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
 
                                 </div>
                             </div>
@@ -97,7 +131,9 @@
                 selectedFile: null,
                 showFeedback: false,
                 feedback: '',
-                output: '',
+                output: '尚未开始',
+                begin:'尚未开始',
+                end:'尚未开始',
                 executing: false
             }
         },
@@ -124,10 +160,13 @@
             executeCommand() {
                 this.executing = true;
                 this.output = '';
+                this.begin = '开始处理';
+                this.end = '正在处理';
 
                 axios.get('/api/execute')
                     .then(response => {
                         this.output = response.data;
+                        this.end = '处理完成';
                         console.log(response.data);
                         this.executing = false;
                     })

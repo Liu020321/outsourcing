@@ -3,6 +3,8 @@ package com.out.controller;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
@@ -12,11 +14,16 @@ import java.util.List;
 @Controller
 public class FileController {
 
+    @RequestMapping("/redirect")
+    @ResponseBody
+    public String redirect(@RequestParam String imageId ) {
+        return "success";
+    }
+
     @GetMapping("/files")
     @ResponseBody
     public List<String> getFilesInFolder() {
-        String folderPath = "/home/lht/Code/pycharm/outsourcing/PaddleSeg/contrib/MedicalSeg/inference_model/output/"; // 替换为指定的本地文件夹路径
-
+        String folderPath = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/nifti/";
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
 

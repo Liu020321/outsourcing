@@ -26,6 +26,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         //医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
         registry.addViewController("/processRecord").setViewName("patient/processRecord");
+
         //治疗操作
         registry.addViewController("/inHospital").setViewName("govern/inHospital");
         registry.addViewController("/medicare").setViewName("govern/medicare");
