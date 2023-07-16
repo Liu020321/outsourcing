@@ -1,310 +1,151 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>Vito - Responsive Bootstrap 4 Admin Dashboard Template</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" th:href="@{images/favicon.ico}" />
+    <link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
     <!-- Typography CSS -->
-    <link rel="stylesheet" th:href="@{css/typography.css}" />
+    <link rel="stylesheet" th:href="@{css/typography.css}"/>
     <!-- Style CSS -->
-    <link rel="stylesheet" th:href="@{css/style.css}" />
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
     <!-- Responsive CSS -->
-    <link rel="stylesheet" th:href="@{css/responsive.css}" />
-  </head>
-  <body>
-    <!-- loader Start -->
-    <div id="loading">
-      <div id="loading-center"></div>
-    </div>
-    <!-- loader END -->
-    <!-- Wrapper Start -->
-    <div class="wrapper">
-      <!-- Sidebar  -->
-      <div th:replace="~{commons/commons::sidebar(active1='yiliao')}"></div>
-      <!-- TOP Nav Bar -->
-      <div th:replace="~{commons/commons::topnavbar}"></div>
-      <!-- TOP Nav Bar END -->
-      <!-- Responsive Breadcrumb End-->
-      <!-- Page Content  -->
+    <link rel="stylesheet" th:href="@{css/responsive.css}"/>
+  <style>
+    .image-view {
+      width: 300px;
+      height: 300px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center"></div>
+</div>
+<!-- loader END -->
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <div th:replace="~{commons/commons::sidebar(active1='yiliao')}"></div>
+    <!-- TOP Nav Bar -->
+    <div th:replace="~{commons/commons::topnavbar}"></div>
+    <!-- TOP Nav Bar END -->
+    <!-- Responsive Breadcrumb End-->
+    <!-- Page Content  -->
 
-      <div id="content-page" class="content-page">
+    <div id="content-page" class="content-page">
         <div class="container-fluid" id="result">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="iq-card">
-                <div class="iq-card-header d-flex justify-content-between">
-                  <div class="iq-header-title">
-                    <h4 class="card-title">图像展示</h4>
-                  </div>
-                </div>
-                <div class="iq-card-body">
-                  <div class="row">
-                    <div
-                      id="nifti-image-container"
-                      oncontextmenu="return false"
-                      class="disable-selection noIbar"
-                      unselectable="on"
-                      onselectstart="return false;"
-                      onmousedown="return false;"
-                    >
-                      <div id="nifti-image1"></div>
-                      <div id="nifti-image2"></div>
-                      <div id="nifti-image3"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">图像展示</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="row">
+                                    <div
+                                            id="nifti-image2"
+                                            style="width: 900px; height: 400px"
+                                    ></div>
+                      
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <!-- Wrapper END -->
-    <!-- Footer -->
-    <div th:replace="~{commons/commons::footer}"></div>
-    <!-- Footer END -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+</div>
+<!-- Wrapper END -->
+<!-- Footer -->
+<div th:replace="~{commons/commons::footer}"></div>
+<!-- Footer END -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/vue.js"></script>
-    <script src="js/axios.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Appear JavaScript -->
-    <script src="js/jquery.appear.js"></script>
-    <!-- Countdown JavaScript -->
-    <script src="js/countdown.min.js"></script>
-    <!-- Counterup JavaScript -->
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <!-- Wow JavaScript -->
-    <script src="js/wow.min.js"></script>
-    <!-- Apexcharts JavaScript -->
-    <script src="js/apexcharts.js"></script>
-    <!-- Slick JavaScript -->
-    <script src="js/slick.min.js"></script>
-    <!-- Select2 JavaScript -->
-    <script src="js/select2.min.js"></script>
-    <!-- Owl Carousel JavaScript -->
-    <script src="js/owl.carousel.min.js"></script>
-    <!-- Magnific Popup JavaScript -->
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <!-- Smooth Scrollbar JavaScript -->
-    <script src="js/smooth-scrollbar.js"></script>
-    <!-- lottie JavaScript -->
-    <script src="js/lottie.js"></script>
-    <!-- Chart Custom JavaScript -->
-    <script src="js/chart-custom.js"></script>
-    <!-- Custom JavaScript -->
-    <script src="js/custom.js"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<div th:replace="~{commons/commons::js}"></div>
 
-    <script src="js/cornerstone/cornerstone.js"></script>
-    <script src="js/cornerstone/cornerstoneMath.js"></script>
-    <script src="js/cornerstone/cornerstoneTools.js"></script>
-    <script src="js/cornerstone/cornerstoneFileImageLoader.js"></script>
-    <script src="js/cornerstone/cornerstoneNIFTIImageLoader.js"></script>
-    <script>
-      cornerstoneNIFTIImageLoader.external.cornerstone = cornerstone;
-      const ImageId = cornerstoneNIFTIImageLoader.nifti.ImageId;
-      let loaded = false;
+<script src="js/cornerstone/cornerstone.js"></script>
+<script src="js/cornerstone/cornerstoneMath.js"></script>
+<script src="js/cornerstone/hammer.js"></script>
+<script src="js/cornerstone/cornerstoneTools.js"></script>
+<script src="js/cornerstone/cornerstoneFileImageLoader.js"></script>
+<script src="js/cornerstone/cornerstoneNIFTIImageLoader.js"></script>
+<script>
+    cornerstoneNIFTIImageLoader.external.cornerstone = cornerstone;
+    const ImageId = cornerstoneNIFTIImageLoader.nifti.ImageId;
+    let loaded = false;
 
-      window.onload = function () {
+    window.onload = function () {
         const urlParams = new URLSearchParams(window.location.search);
         const niftiName = urlParams.get('imageId');
         downloadAndView(niftiName);
-      };
+    };
 
-      function loadAndViewImage(imageId) {
-        const element1 = document.getElementById('nifti-image1');
+    const element2 = document.getElementById('nifti-image2');
+    cornerstone.enable(element2);
+    
+    function downloadAndView(niftiName) {
+        let url = `/Files/${niftiName}`;
+
+        loadAndViewImage(`nifti:${url}`);
+    }
+
+    function loadAndViewImage(imageId) {
         const element2 = document.getElementById('nifti-image2');
-        const element3 = document.getElementById('nifti-image3');
         const imageIdObject = ImageId.fromURL(imageId);
 
         try {
-          const start = new Date().getTime();
-          cornerstone.loadAndCacheImage(imageIdObject.url).then(
-            function (image) {
-              console.log(image);
-              const numberOfSlices = cornerstone.metaData.get(
-                'multiFrameModule',
-                imageIdObject.url
-              ).numberOfFrames;
-              const stack = {
-                currentImageIdIndex: imageIdObject.slice.index,
-                imageIds: Array.from(
-                  Array(numberOfSlices),
-                  (_, i) =>
-                    `nifti:${imageIdObject.filePath}#${imageIdObject.slice.dimension}-${i}`
-                ),
-              };
+            cornerstone.loadAndCacheImage(imageIdObject.url).then(function (image) {
+                console.log(image);
+                const numberOfSlices = cornerstone.metaData.get('multiFrameModule', imageIdObject.url).numberOfFrames;
+                const stack = {
+                    currentImageIdIndex: imageIdObject.slice.index,
+                    imageIds: Array.from(Array(numberOfSlices), (_, i) => `nifti:${imageIdObject.filePath}#${imageIdObject.slice.dimension}-${i}`)
+                };
 
-              const viewport = cornerstone.getDefaultViewportForImage(
-                element2,
-                image
-              );
-              cornerstone.displayImage(element2, image, viewport);
-              if (loaded === false) {
-                cornerstoneTools.addStackStateManager(element2, [
-                  'stack',
-                  'wwwc',
-                  'pan',
-                  'zoom',
-                ]);
-                cornerstoneTools.addToolState(element2, 'stack', stack);
-                cornerstoneTools.mouseInput.enable(element2);
-                cornerstoneTools.mouseWheelInput.enable(element2);
-                cornerstoneTools.wwwc.activate(element2, 1);
-                cornerstoneTools.pan.activate(element2, 2);
-                cornerstoneTools.zoom.activate(element2, 4);
-                cornerstoneTools.stackScrollWheel.activate(element2);
-                cornerstoneTools.orientationMarkers.enable(element2);
-                loaded = true;
-              }
+                const viewport = cornerstone.getDefaultViewportForImage(element2, image);
+                cornerstone.displayImage(element2, image, viewport);
+                if (loaded === false) {
+                    cornerstoneTools.addStackStateManager(element2, ['stack', 'wwwc', 'pan', 'zoom']);
+                    cornerstoneTools.addToolState(element2, 'stack', stack);
+                    cornerstoneTools.mouseInput.enable(element2);
+                    cornerstoneTools.mouseWheelInput.enable(element2);
+                    cornerstoneTools.wwwc.activate(element2, 1);
+                    cornerstoneTools.pan.activate(element2, 2);
+                    cornerstoneTools.zoom.activate(element2, 4);
+                    cornerstoneTools.stackScrollWheel.activate(element2);
+                    cornerstoneTools.orientationMarkers.enable(element2);
 
-              function getPixelRepresentation(value) {
-                return value === '0000H' ? '(unsigned)' : '(signed)';
-              }
+                    loaded = true;
+                }
 
-              function getPlanarConfiguration(value) {
-                return typeof value === 'undefined'
-                  ? 'unspecified'
-                  : value === 0
-                  ? '(pixel)'
-                  : '(plane)';
-              }
-
-              const metaData = (type) =>
-                cornerstone.metaData.get(type, imageIdObject.url);
-
-              document.getElementById('samplesPerPixel').textContent =
-                metaData('imagePixelModule').samplesPerPixel;
-              document.getElementById('photometricInterpretation').textContent =
-                metaData('imagePixelModule').photometricInterpretation;
-              document.getElementById('numberOfFrames').textContent =
-                metaData('multiFrameModule').numberOfFrames;
-              document.getElementById('planarConfiguration').textContent =
-                getPlanarConfiguration(
-                  metaData('imagePixelModule').planarConfiguration
-                );
-              document.getElementById('rows').textContent =
-                metaData('imagePixelModule').rows;
-              document.getElementById('columns').textContent =
-                metaData('imagePixelModule').columns;
-              document.getElementById('pixelAspectRatio').textContent =
-                metaData('imagePixelModule').pixelAspectRatio;
-              document.getElementById('bitsAllocated').textContent =
-                metaData('imagePixelModule').bitsAllocated;
-              document.getElementById('bitsStored').textContent =
-                metaData('imagePixelModule').bitsStored;
-              document.getElementById('highBit').textContent =
-                metaData('imagePixelModule').highBit;
-              document.getElementById('pixelRepresentation').textContent =
-                getPixelRepresentation(
-                  metaData('imagePixelModule').pixelRepresentation
-                );
-              document.getElementById('windowCenter').textContent =
-                metaData('voiLutModule').windowCenter;
-              document.getElementById('windowWidth').textContent =
-                metaData('voiLutModule').windowWidth;
-              document.getElementById('rescaleIntercept').textContent =
-                metaData('modalityLutModule').rescaleIntercept;
-              document.getElementById('rescaleSlope').textContent =
-                metaData('modalityLutModule').rescaleSlope;
-              document.getElementById('minStoredPixelValue').textContent =
-                metaData('imagePixelModule').smallestPixelValue;
-              document.getElementById('maxStoredPixelValue').textContent =
-                metaData('imagePixelModule').largestPixelValue;
-              const end = new Date().getTime();
-              const time = end - start;
-              document.getElementById('totalTime').textContent = `${time}ms`;
-            },
-            function (err) {
-              alert(err);
-              console.error(err);
-            }
-          );
+            }, function (err) {
+                alert(err);
+                console.error(err);
+            });
         } catch (err) {
-          alert(err);
-          console.error(err);
+            alert(err);
+            console.error(err);
         }
-      }
+    }
 
-      function downloadAndView(niftiName) {
-        let url = `/nifti/${niftiName}`;
 
-        loadAndViewImage(`nifti:${url}`);
-      }
-
-      cornerstone.events.addEventListener(
-        'cornerstoneimageloadprogress',
-        function (event) {
-          const eventData = event.detail;
-          const loadProgress = document.getElementById('load-progress');
-          loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
-        }
-      );
-
-      const element2 = document.getElementById('nifti-image2');
-      cornerstone.enable(element2);
-
-      document
-        .getElementById('download-and-view')
-        .addEventListener('click', function (e) {
-          downloadAndView();
-        });
-
-      const form = document.getElementById('form');
-      form.addEventListener('submit', function (e) {
-        downloadAndView();
-        e.preventDefault();
-      });
-
-      document
-        .getElementById('toggle-more-info')
-        .addEventListener('click', function () {
-          const moreInfoEl = document.querySelector('#more-info');
-          let justAppeared = !moreInfoEl.classList.toggle('collapse');
-          if (justAppeared) {
-            moreInfoEl.classList.add('highlighted');
-            setTimeout(() => moreInfoEl.classList.remove('highlighted'), 100);
-          }
-        });
-
-      document.addEventListener('DOMContentLoaded', () => {
-        // check if there is a query parameter pointing to a file to be preloaded
-        const fileToPreload = (getParameterByName('file') || '').trim();
-
-        if (fileToPreload !== '') {
-          document.getElementById('nifti-URL').value = fileToPreload;
-          downloadAndView();
-        }
-      });
-
-      function getParameterByName(name) {
-        const url = window.location.href;
-        name = name.replace(/[\[\]]/g, '\\$&');
-        const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
-        const results = regex.exec(url);
-        if (!results) {
-          return null;
-        }
-        if (!results[2]) {
-          return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-      }
-    </script>
-  </body>
+</script>
+</body>
 </html>

@@ -23,7 +23,7 @@ public class FileController {
     @GetMapping("/files")
     @ResponseBody
     public List<String> getFilesInFolder() {
-        String folderPath = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/nifti/";
+        String folderPath = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files";
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
 

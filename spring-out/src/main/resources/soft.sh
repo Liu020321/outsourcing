@@ -7,7 +7,7 @@ python --version
 cd /home/lht/Code/pycharm/outsourcing/PaddleSeg/contrib/MedicalSeg
 python nnunet/infer.py \
 --image_folder inference_model/submit \
---output_folder /home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/nifti \
+--output_folder /home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files \
 --plan_path inference_model/nnUNetPlansv2.1_plans_3D.pkl \
 --model_paths inference_model/model.pdmodel \
 --param_paths inference_model/model.pdiparams \

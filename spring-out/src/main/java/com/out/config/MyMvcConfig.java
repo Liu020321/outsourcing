@@ -13,21 +13,22 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/index.html").setViewName("index");
-        //用户路由
+        // 用户路由
         registry.addViewController("/login").setViewName("user/sign-in");
         registry.addViewController("/logout").setViewName("user/sign-up");
-        //空白路由
+        // 空白路由
         registry.addViewController("/blank").setViewName("blank-page");
-        //3D操作路由
+        // 3D操作路由
         registry.addViewController("/importPictures").setViewName("3D_Operate/importPictures");
         registry.addViewController("/viewResult").setViewName("3D_Operate/viewResult");
+        registry.addViewController("/view3D").setViewName("3D_Operate/view3D");
         registry.addViewController("/historicalAnalysis").setViewName("3D_Operate/historicalAnalysis");
         registry.addViewController("/viewPicture").setViewName("3D_Operate/viewPicture");
-        //医患操作
+        // 医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
         registry.addViewController("/processRecord").setViewName("patient/processRecord");
 
-        //治疗操作
+        // 治疗操作
         registry.addViewController("/inHospital").setViewName("govern/inHospital");
         registry.addViewController("/medicare").setViewName("govern/medicare");
         registry.addViewController("/prescribe").setViewName("govern/prescribe");
