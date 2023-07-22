@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.out.dao.viewResultMapper">
+    <resultMap id="viewResultMap" type="viewResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="fileName" column="fileName"/>
+        <result property="date" column="date"/>
+        <result property="describe" column="describe"/>
+    </resultMap>
+
+    <select id="getProductsByPage" resultMap="viewResultMap">
+        SELECT * FROM outsourcing.viewresult ORDER BY date DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM outsourcing.viewresult
+    </select>
+
+    <insert id="addViewResult" parameterType="viewResult">
+        insert into outsourcing.viewresult(viewresult.name, viewresult.fileName,  viewresult.date, viewresult.`describe`) values (#{name},#{fileName},#{date},#{describe})
+    </insert>
+
+    <delete id="deleteViewResult" parameterType="viewResult">
+        delete from outsourcing.viewresult where viewresult.id=#{id}
+    </delete>
+
+    <select id="searchViewResult" resultMap="viewResultMap">
+        SELECT * FROM outsourcing.viewresult WHERE viewresult.name LIKE CONCAT('%',#{name},'%') ORDER BY date DESC
+    </select>
+
+</mapper>

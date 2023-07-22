@@ -61,11 +61,13 @@
                           <form class="mr-3 position-relative">
                             <div class="form-group mb-0">
                               <input
-                                type="search"
+                                type="搜索..."
                                 class="form-control"
                                 id="exampleInputSearch"
                                 placeholder="Search"
                                 aria-controls="user-list-table"
+                                v-model="searchName"
+                                @keydown.enter="searchViewResult"
                               />
                             </div>
                           </form>
@@ -103,19 +105,19 @@
                       </thead>
                       <tbody>
                         <tr
-                          v-for="(item, index) in results.fileName"
+                          v-for="(item, index) in products"
                           :key="index"
                         >
-                          <td>{{ results.patientName }}</td>
-                          <td>{{ getFileNameWithoutExtension(item).name }}</td>
+                          <td>{{ item.name }}</td>
+                          <td>{{ getFileNameWithoutExtension(item.fileName).name }}</td>
                           <td>
                             <span class="badge iq-bg-primary"
-                              >{{ getFileNameWithoutExtension(item).type
+                              >{{ getFileNameWithoutExtension(item.fileName).type
                               }}</span
                             >
                           </td>
-                          <td>{{ results.patientDate }}</td>
-                          <td>{{ results.description }}</td>
+                          <td>{{ item.date }}</td>
+                          <td>{{ item.describe }}</td>
                           <td>
                             <div
                               class="flex align-items-center list-user-action"
@@ -127,7 +129,7 @@
                                 title=""
                                 data-original-title="查看图像"
                                 href="#"
-                                @click="redirectToImage(getCombinedData(item))"
+                                @click="redirectToImage(item.fileName)"
                                 ><i class="ri-user-add-line"></i
                               ></a>
                               <a
@@ -145,6 +147,7 @@
                                 data-placement="top"
                                 title=""
                                 data-original-title="删除图像"
+                                @click="deleteViewResult(item.id)"
                                 href="#"
                                 ><i class="ri-delete-bin-line"></i
                               ></a>
@@ -156,31 +159,20 @@
                   </div>
                   <div class="row justify-content-between mt-3">
                     <div id="user-list-page-info" class="col-md-6">
-                      <span>Showing 1 to 5 of 5 entries</span>
+                      <span>共有1-{{totalPages}}页</span>
                     </div>
                     <div class="col-md-6">
                       <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-end mb-0">
-                          <li class="page-item disabled">
-                            <a
-                              class="page-link"
-                              href="#"
-                              tabindex="-1"
-                              aria-disabled="true"
-                              >Previous</a
-                            >
+                          <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                            <a class="page-link" href="#" @click="prevPage">Previous</a>
                           </li>
-                          <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
+                          <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber"
+                              :class="{ 'active': currentPage === pageNumber }">
+                            <a class="page-link" href="#" @click="goToPage(pageNumber)">{{ pageNumber }}</a>
                           </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
+                          <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                            <a class="page-link" href="#" @click="nextPage">Next</a>
                           </li>
                         </ul>
                       </nav>
@@ -205,18 +197,54 @@
     <script>
       new Vue({
         el: '#result',
-        data: {
-          results: {
-            patientName: '太子',
-            fileName: [], // 修正为fileNames
-            patientDate: '2022-03-01',
-            description: '无',
-          },
+        data() {
+          return {
+            deleteId: '',
+            searchName: '',
+            products:{
+              id: '',
+              name: '', // 修正为fileNames
+              fileName: '',
+              date: '',
+              describe: '',
+            },
+            currentPage: 1,
+            pageSize: 7,
+            totalPages: 0,
+          }
         },
         mounted() {
-          this.fetchFileNames();
+          this.loadProducts();
         },
         methods: {
+          loadProducts() {
+            axios.get(`/api/products?page=${this.currentPage}&size=${this.pageSize}`)
+                    .then(response => {
+                      this.products = response.data.rows;
+                      this.totalPages = response.data.totalPages;
+                    })
+                    .catch(error => {
+                      console.error(error);
+                    });
+          },
+          prevPage() {
+            if (this.currentPage > 1) {
+              this.currentPage--;
+              this.loadProducts();
+            }
+          },
+          nextPage() {
+            if (this.currentPage < this.totalPages) {
+              this.currentPage++;
+              this.loadProducts();
+            }
+          },
+          goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+              this.currentPage = pageNumber;
+              this.loadProducts();
+            }
+          },
           fetchFileNames() {
             axios
               .get('/files')
@@ -242,18 +270,45 @@
             }).then((resp) => {
               if (resp.data === 'success') {
                 window.location.href =
-                  'http://localhost:8081/viewPicture?imageId=' + imageId;
+                  'http://localhost:8081/viewNifti?imageId=' + imageId;
               } else {
                 alert('跳转失败');
               }
             });
           },
           getCombinedData(item) {
-            const name = this.getFileNameWithoutExtension(item).name;
-            const type = this.getFileNameWithoutExtension(item).type;
+            const name = this.getFileNameWithoutExtension(item.fileName).name;
+            const type = this.getFileNameWithoutExtension(item.fileName).type;
             return `${name}${type}`;
           },
+          deleteViewResult(id) {
+            this.deleteId = id;
+            axios({
+              method: "post",
+              url: "http://localhost:8081/api/delete?id=" + id,
+              data: this.deleteId
+            }).then(resp => {
+              if (resp.data === "success" ){
+                alert("删除成功");
+                this.loadProducts();
+              } else {
+                alert("删除失败");
+              }
+            })
+          },
+          searchViewResult() {
+            axios({
+              method: "post",
+              url: "http://localhost:8081/api/search?name=" + this.searchName + "&page=" + this.currentPage + "&size=" + this.pageSize,
+              data: this.searchName
+            }).then(resp => {
+              this.products = [];
+              this.products = resp.data;
+              alert("查询成功")
+            })
+          },
         },
+
       });
     </script>
   </body>

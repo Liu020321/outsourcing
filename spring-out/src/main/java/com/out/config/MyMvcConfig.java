@@ -1,8 +1,6 @@
 package com.out.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,9 +19,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         // 3D操作路由
         registry.addViewController("/importPictures").setViewName("3D_Operate/importPictures");
         registry.addViewController("/viewResult").setViewName("3D_Operate/viewResult");
-        registry.addViewController("/view3D").setViewName("3D_Operate/view3D");
-        registry.addViewController("/historicalAnalysis").setViewName("3D_Operate/historicalAnalysis");
-        registry.addViewController("/viewPicture").setViewName("3D_Operate/viewPicture");
+        registry.addViewController("/viewDicom").setViewName("3D_Operate/viewDicom");
+        registry.addViewController("/viewNifti").setViewName("3D_Operate/viewNifti");
         // 医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
         registry.addViewController("/processRecord").setViewName("patient/processRecord");
@@ -33,7 +30,6 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/medicare").setViewName("govern/medicare");
         registry.addViewController("/prescribe").setViewName("govern/prescribe");
 
-        registry.addViewController("/med").setViewName("/examples/index.html");
 
     }
 }

@@ -303,6 +303,7 @@
 .ri-cast-line:before { content: "\eb01"; }
 .ri-cellphone-fill:before { content: "\eb02"; }
 .ri-cellphone-line:before { content: "\eb03"; }
+.ri-cellphone-line1:before { content: "\eb03";font-size: 23px }
 .ri-celsius-fill:before { content: "\eb04"; }
 .ri-celsius-line:before { content: "\eb05"; }
 .ri-charging-pile-2-fill:before { content: "\eb06"; }
@@ -414,6 +415,7 @@
 .ri-compasses-line:before { content: "\eb70"; }
 .ri-computer-fill:before { content: "\eb71"; }
 .ri-computer-line:before { content: "\eb72"; }
+.ri-computer-line1:before { content: "\eb72";font-size: 23px }
 .ri-contacts-book-2-fill:before { content: "\eb73"; }
 .ri-contacts-book-2-line:before { content: "\eb74"; }
 .ri-contacts-book-fill:before { content: "\eb75"; }
@@ -528,6 +530,7 @@
 .ri-drizzle-line:before { content: "\ebe2"; }
 .ri-drop-fill:before { content: "\ebe3"; }
 .ri-drop-line:before { content: "\ebe4"; }
+.ri-drop-line1:before { content: "\ebe4";font-size: 23px; }
 .ri-dropbox-fill:before { content: "\ebe5"; }
 .ri-dropbox-line:before { content: "\ebe6"; }
 .ri-dv-fill:before { content: "\ebe7"; }
@@ -853,6 +856,7 @@
 .ri-home-3-line:before { content: "\ed27"; }
 .ri-home-4-fill:before { content: "\ed28"; }
 .ri-home-4-line:before { content: "\ed29"; }
+.ri-home-4-line1:before { content: "\ed29";font-size: 30px; }
 .ri-home-5-fill:before { content: "\ed2a"; }
 .ri-home-5-line:before { content: "\ed2b"; }
 .ri-home-6-fill:before { content: "\ed2c"; }
@@ -1025,6 +1029,7 @@
 .ri-map-pin-add-line:before { content: "\edd3"; }
 .ri-map-pin-fill:before { content: "\edd4"; }
 .ri-map-pin-line:before { content: "\edd5"; }
+.ri-map-pin-line1:before { content: "\edd5";font-size: 23px }
 .ri-map-pin-range-fill:before { content: "\edd6"; }
 .ri-map-pin-range-line:before { content: "\edd7"; }
 .ri-map-pin-time-fill:before { content: "\edd8"; }
@@ -1559,6 +1564,7 @@
 .ri-table-line:before { content: "\efe9"; }
 .ri-tablet-fill:before { content: "\efea"; }
 .ri-tablet-line:before { content: "\efeb"; }
+.ri-tablet-line1:before { content: "\efeb";font-size: 23px }
 .ri-taobao-fill:before { content: "\efec"; }
 .ri-taobao-line:before { content: "\efed"; }
 .ri-tape-fill:before { content: "\efee"; }

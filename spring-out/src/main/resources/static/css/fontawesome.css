@@ -313,6 +313,10 @@
 .fa-book:before {
   content: "\f02d";
 }
+.fa-book1:before {
+  content: "\f02d";
+  font-size: 30px;
+}
 .fa-bookmark:before {
   content: "\f02e";
 }
@@ -488,6 +492,10 @@
 }
 .fa-asterisk:before {
   content: "\f069";
+}
+.fa-asterisk1:before {
+  content: "\f069";
+  font-size: 30px;
 }
 .fa-exclamation-circle:before {
   content: "\f06a";
@@ -1000,6 +1008,10 @@
 .fa-crop:before {
   content: "\f125";
 }
+.fa-crop1:before {
+  content: "\f125";
+  font-size: 30px;
+}
 .fa-code-fork:before {
   content: "\f126";
 }
@@ -1294,6 +1306,10 @@
 .fa-bug:before {
   content: "\f188";
 }
+.fa-bug1:before {
+  content: "\f188";
+  font-size: 30px;
+}
 .fa-vk:before {
   content: "\f189";
 }
@@ -1346,6 +1362,10 @@
 }
 .fa-wordpress:before {
   content: "\f19a";
+}
+.fa-wordpress1:before {
+  content: "\f19a";
+  font-size: 30px;
 }
 .fa-openid:before {
   content: "\f19b";
@@ -1651,6 +1671,10 @@
 }
 .fa-area-chart:before {
   content: "\f1fe";
+}
+.fa-area-chart1:before {
+  content: "\f1fe";
+  font-size: 30px;
 }
 .fa-pie-chart:before {
   content: "\f200";
