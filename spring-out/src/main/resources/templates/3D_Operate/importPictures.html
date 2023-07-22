@@ -52,11 +52,65 @@
                                     <ul id="top-tabbar-vertical" class="p-0">
 
                                         <li class="active" id="official">
-                                            <a href="#" @click="chooseFile">
+                                            <div class="bootstrap-modal">
+                                                <div class="modal fade col-lg-12" id="basicModal">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">添加图像</h5>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal"><span>&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <section>
+                                                                    <div class="iq-card">
+                                                                    <div class="iq-card-body">
+                                                                        <form class="was-validated">
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="validationDefault01">患者名称</label>
+                                                                                    <input type="text" class="form-control" id="validationDefault01"  v-model="upload.name" required>
+                                                                                </div>
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="validationDefault02">检查日期</label>
+                                                                                    <input type="text" class="form-control" id="validationDefault02" v-model="upload.date" required>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="validationDefault03">描述</label>
+                                                                                    <textarea type="text" class="form-control" id="validationDefault03" v-model="upload.describe" required></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="custom-file">
+                                                                                <input type="file" class="custom-file-input" id="validatedCustomFile" @change="onFileChange" required>
+                                                                                <label class="custom-file-label" for="validatedCustomFile">选择文件</label>
+                                                                                <div class="invalid-feedback">请选择nii.gz格式的文件</div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">关闭
+                                                                </button>
+                                                                <button type="button" class="btn btn-primary"
+                                                                        @click="addEmployee">保存
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <a href="#" @click="chooseFile" data-toggle="modal" data-target="#basicModal">
                                                 <i class="ri-camera-fill text-success"></i><span>导入图片</span>
                                             </a>
-                                            <input type="file" ref="fileInput" style="display: none"
-                                                   @change="handleFileChange"/>
+<!--                                            <input type="file" ref="fileInput" style="display: none"-->
+<!--                                                   @change="handleFileChange"/>-->
+
                                         </li>
                                         <li class="active" id="payment">
                                             <a href="#" @click="executeCommand" :disabled="executing">
@@ -68,38 +122,44 @@
 
                                 <div class="col-md-8">
 
-                                        <div class="iq-card">
-                                            <div class="iq-card-header d-flex justify-content-between">
-                                                <div class="iq-header-title">
-                                                    <h4 class="card-title">处理信息</h4>
-                                                </div>
-                                            </div>
-                                            <div class="iq-card-body">
-                                                <ul class="iq-timeline">
-                                                    <li>
-                                                        <div class="timeline-dots"></div>
-                                                        <h4 class="float-left mb-1">是否开始处理</h4>
-                                                        <div class="d-inline-block w-100">
-                                                            <p><pre id="begin"><h5>{{ begin}}</h5></pre></p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="timeline-dots border-danger"></div>
-                                                        <h4 class="float-left mb-1">处理是否完成</h4>
-                                                        <div class="d-inline-block w-100">
-                                                            <p><pre id="end"><h5>{{end}}</h5></pre></p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="timeline-dots border-success"></div>
-                                                        <h4 class="float-left mb-1">处理信息</h4>
-                                                        <div class="d-inline-block w-100">
-                                                            <p><pre id="output"><h5>{{ output }}</h5></pre></p>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                    <div class="iq-card">
+                                        <div class="iq-card-header d-flex justify-content-between">
+                                            <div class="iq-header-title">
+                                                <h4 class="card-title">处理信息</h4>
                                             </div>
                                         </div>
+                                        <div class="iq-card-body">
+                                            <ul class="iq-timeline">
+                                                <li>
+                                                    <div class="timeline-dots"></div>
+                                                    <h4 class="float-left mb-1">是否开始处理</h4>
+                                                    <div class="d-inline-block w-100">
+                                                        <p>
+                                                        <pre id="begin"><h5>{{ begin}}</h5></pre>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="timeline-dots border-danger"></div>
+                                                    <h4 class="float-left mb-1">处理是否完成</h4>
+                                                    <div class="d-inline-block w-100">
+                                                        <p>
+                                                        <pre id="end"><h5>{{end}}</h5></pre>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="timeline-dots border-success"></div>
+                                                    <h4 class="float-left mb-1">处理信息</h4>
+                                                    <div class="d-inline-block w-100">
+                                                        <p>
+                                                        <pre id="output"><h5>{{ output }}</h5></pre>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -128,16 +188,31 @@
         },
         data() {
             return {
+                upload:{
+                    name:'',
+                    date:'',
+                    describe:'',
+                    fileName:''
+
+                },
                 selectedFile: null,
                 showFeedback: false,
                 feedback: '',
                 output: '尚未开始',
-                begin:'尚未开始',
-                end:'尚未开始',
+                begin: '尚未开始',
+                end: '尚未开始',
                 executing: false
             }
         },
         methods: {
+            onFileChange(event) {
+                const fileInput = event.target;
+                if (fileInput.files.length > 0) {
+                    // 获取文件名，并赋值给upload对象的fileName属性
+                    this.upload.fileName = fileInput.files[0].name;
+                    console.log(this.upload.fileName);
+                }
+            },
             chooseFile() {
                 this.$refs.fileInput.click();
             },

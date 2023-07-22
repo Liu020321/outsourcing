@@ -16,14 +16,14 @@ public class FileController {
 
     @RequestMapping("/redirect")
     @ResponseBody
-    public String redirect(@RequestParam String imageId ) {
+    public String redirect(@RequestParam String imageId) {
         return "success";
     }
 
     @GetMapping("/files")
     @ResponseBody
     public List<String> getFilesInFolder() {
-        String folderPath = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files";
+        String folderPath = "src\\main\\resources\\static\\Files";
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
 

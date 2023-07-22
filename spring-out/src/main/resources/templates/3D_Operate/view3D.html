@@ -56,9 +56,9 @@
                 </div>
                 <div class="iq-card-body">
                   <div class="row">
-                    <canvas id="axial-canvas" class="image-view"></canvas>
-                    <canvas id="sagittal-canvas" class="image-view"></canvas>
-                    <canvas id="coronal-canvas" class="image-view"></canvas>
+                    <div id="div" style="width:500px; height:500px">
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -79,142 +79,35 @@
 
     <script src="js/cornerstone/cornerstone.js"></script>
     <script src="js/cornerstone/cornerstoneMath.js"></script>
+    <script src="js/cornerstone/hammer.js"></script>
     <script src="js/cornerstone/cornerstoneTools.js"></script>
     <script src="js/cornerstone/cornerstoneFileImageLoader.js"></script>
     <script src="js/cornerstone/cornerstoneNIFTIImageLoader.js"></script>
+    <script src="js/cornerstone/image-statistics.js"></script>
+    <script src="js/cornerstone/rotated-elliptical-roi-tool.umd.js"></script>
+    <script src="js/cornerstone/cornerstoneStreamingImageVolumeLoader.js"></script>
     <script>
-      cornerstoneNIFTIImageLoader.external.cornerstone = cornerstone;
-      const ImageId = cornerstoneNIFTIImageLoader.nifti.ImageId;
-      let loaded = false;
-
-      window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const niftiName = urlParams.get('imageId');
-        downloadAndView(niftiName);
+      // Get Cornerstone imageIds and fetch metadata into RAM
+      const imageIds = await createImageIdsAndCacheMetaData({
+        StudyInstanceUID:
+                '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
+        SeriesInstanceUID:
+                '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
+        wadoRsRoot: 'https://d3t6nz73ql33tx.cloudfront.net/dicomweb',
+      });
+      const element = document.getElementById('div');
+      const renderingEngineId = 'myRenderingEngine';
+      const viewportId = 'CT_AXIAL_STACK';
+      const renderingEngine = new RenderingEngine(renderingEngineId);
+      const viewportInput = {
+        viewportId,
+        element,
+        type: ViewportType.STACK,
       };
-
-      // 获取三个视图的Canvas元素
-      const axialElement = document.getElementById('axial-canvas');
-      const sagittalElement = document.getElementById('sagittal-canvas');
-      const coronalElement = document.getElementById('coronal-canvas');
-
-      // 启用Cornerstone.js
-      cornerstone.enable(axialElement);
-      cornerstone.enable(sagittalElement);
-      cornerstone.enable(coronalElement);
-
-      function downloadAndView(niftiName) {
-        let url = `/Files/${niftiName}`;
-
-        loadAndViewImage(`nifti:${url}`);
-      }
-
-      function loadAndViewImage(imageId) {
-        const element2 = document.getElementById('nifti-image2');
-        const imageIdObject = ImageId.fromURL(imageId);
-
-        try {
-          cornerstone.loadAndCacheImage(imageIdObject.url).then(
-            function (image) {
-              console.log(image);
-              const numberOfSlices = cornerstone.metaData.get(
-                'multiFrameModule',
-                imageIdObject.url
-              ).numberOfFrames;
-              const stack = {
-                currentImageIdIndex: imageIdObject.slice.index,
-                imageIds: Array.from(
-                  Array(numberOfSlices),
-                  (_, i) =>
-                    `nifti:${imageIdObject.filePath}#${imageIdObject.slice.dimension}-${i}`
-                ),
-              };
-
-              const axialViewport = cornerstone.getDefaultViewportForImage(
-                axialElement,
-                image
-              );
-              const sagittalViewport = cornerstone.getDefaultViewportForImage(
-                sagittalElement,
-                image
-              );
-              const coronalViewport = cornerstone.getDefaultViewportForImage(
-                coronalElement,
-                image
-              );
-
-              // 在每个视图中显示图像
-              // 在每个视图的Canvas上显示图像
-              cornerstone.displayImage(axialElement, image, axialViewport);
-              cornerstone.displayImage(
-                sagittalElement,
-                image,
-                sagittalViewport
-              );
-              cornerstone.displayImage(coronalElement, image, coronalViewport);
-
-              if (loaded === false) {
-                // 添加工具和功能到axial-view
-                cornerstoneTools.addStackStateManager(axialElement, [
-                  'stack',
-                  'wwwc',
-                  'pan',
-                  'zoom',
-                ]);
-                cornerstoneTools.addToolState(axialElement, 'stack', stack);
-                cornerstoneTools.mouseInput.enable(axialElement);
-                cornerstoneTools.mouseWheelInput.enable(axialElement);
-                cornerstoneTools.wwwc.activate(axialElement, 1);
-                cornerstoneTools.pan.activate(axialElement, 2);
-                cornerstoneTools.zoom.activate(axialElement, 4);
-                cornerstoneTools.stackScrollWheel.activate(axialElement);
-                cornerstoneTools.orientationMarkers.enable(axialElement);
-
-                // 添加工具和功能到sagittal-view
-                cornerstoneTools.addStackStateManager(sagittalElement, [
-                  'stack',
-                  'wwwc',
-                  'pan',
-                  'zoom',
-                ]);
-                cornerstoneTools.addToolState(sagittalElement, 'stack', stack);
-                cornerstoneTools.mouseInput.enable(sagittalElement);
-                cornerstoneTools.mouseWheelInput.enable(sagittalElement);
-                cornerstoneTools.wwwc.activate(sagittalElement, 1);
-                cornerstoneTools.pan.activate(sagittalElement, 2);
-                cornerstoneTools.zoom.activate(sagittalElement, 4);
-                cornerstoneTools.stackScrollWheel.activate(sagittalElement);
-                cornerstoneTools.orientationMarkers.enable(sagittalElement);
-
-                // 添加工具和功能到coronal-view
-                cornerstoneTools.addStackStateManager(coronalElement, [
-                  'stack',
-                  'wwwc',
-                  'pan',
-                  'zoom',
-                ]);
-                cornerstoneTools.addToolState(coronalElement, 'stack', stack);
-                cornerstoneTools.mouseInput.enable(coronalElement);
-                cornerstoneTools.mouseWheelInput.enable(coronalElement);
-                cornerstoneTools.wwwc.activate(coronalElement, 1);
-                cornerstoneTools.pan.activate(coronalElement, 2);
-                cornerstoneTools.zoom.activate(coronalElement, 4);
-                cornerstoneTools.stackScrollWheel.activate(coronalElement);
-                cornerstoneTools.orientationMarkers.enable(coronalElement);
-
-                loaded = true;
-              }
-            },
-            function (err) {
-              alert(err);
-              console.error(err);
-            }
-          );
-        } catch (err) {
-          alert(err);
-          console.error(err);
-        }
-      }
+      renderingEngine.enableElement(viewportInput);
+      const viewport = renderingEngine.getViewport(viewportInput.viewportId);
+      viewport.setStack(imageIds, 60);
+      viewport.render();
     </script>
   </body>
 </html>
