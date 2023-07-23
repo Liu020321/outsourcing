@@ -83,8 +83,8 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="custom-file">
-                                                                                <input type="file" class="custom-file-input" id="validatedCustomFile" @change="onFileChange;handleFileChange" required>
-                                                                                <label class="custom-file-label" for="validatedCustomFile">选择文件</label>
+                                                                                <input type="file" class="custom-file-input" id="validatedCustomFile" @change="onFileChange" required>
+                                                                                <label class="custom-file-label" for="validatedCustomFile" style="font-size: 16px">{{upload.fileName}}</label>
                                                                                 <div class="invalid-feedback">请选择nii.gz格式的文件</div>
                                                                             </div>
                                                                         </form>
@@ -192,7 +192,7 @@
                     name:'',
                     date:'',
                     describe:'',
-                    fileName:''
+                    fileName:'选择文件'
 
                 },
                 selectedFile: null,
@@ -211,14 +211,12 @@
                     // 获取文件名，并赋值给upload对象的fileName属性
                     this.upload.fileName = fileInput.files[0].name;
                     console.log(this.upload.fileName);
+                    const file = event.target.files[0];
+                    this.uploadFile(file);
                 }
             },
             chooseFile() {
                 this.$refs.fileInput.click();
-            },
-            handleFileChange(event) {
-                const file = event.target.files[0];
-                this.uploadFile(file);
             },
             uploadFile(file) {
                 const formData = new FormData();

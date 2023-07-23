@@ -16,7 +16,7 @@ window.onload = function () {
 
 //从前端获取文件名字在这里执行
 function downloadAndView(niftiName) {
-    let url = `/Files/${niftiName}`;
+    let url = `/Files/Nifti/${niftiName}`;
     loadAndViewImage(`nifti:${url}`);
 }
 

@@ -1,532 +1,567 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>dicom格式图像展示</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
+    <link rel="shortcut icon" th:href="@{images/favicon.ico}" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
     <!-- Typography CSS -->
-    <link rel="stylesheet" th:href="@{css/typography.css}"/>
+    <link rel="stylesheet" th:href="@{css/typography.css}" />
     <!-- Style CSS -->
-    <link rel="stylesheet" th:href="@{css/style.css}"/>
+    <link rel="stylesheet" th:href="@{css/style.css}" />
     <!-- Responsive CSS -->
-    <link rel="stylesheet" th:href="@{css/responsive.css}"/>
+    <link rel="stylesheet" th:href="@{css/responsive.css}" />
 
-    <link rel="stylesheet" th:href="@{nifti/nifti.css}"/>
-</head>
-<body>
-<!-- loader Start -->
-<div id="loading">
-    <div id="loading-center"></div>
-</div>
-<!-- loader END -->
-<!-- Wrapper Start -->
-<div class="wrapper">
-    <!-- Sidebar  -->
-    <div th:replace="~{commons/commons::sidebar(active1='yiliao')}"></div>
-    <!--顶部导航栏-->
+    <link rel="stylesheet" th:href="@{nifti/nifti.css}" />
+  </head>
+  <body>
+    <!-- loader Start -->
+    <div id="loading">
+      <div id="loading-center"></div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <div th:replace="~{commons/commons::sidebar(active1='yiliao')}"></div>
+      <!--顶部导航栏-->
 
-    <!-- TOP Nav Bar -->
-    <div class="iq-top-navbar">
+      <!-- TOP Nav Bar -->
+      <div class="iq-top-navbar">
         <div class="iq-navbar-custom">
-            <div class="iq-sidebar-logo">
-                <div class="top-logo">
-                    <a th:href="@{index.html}" class="logo">
-                        <img th:src="@{images/logo.gif}" class="img-fluid" alt=""/>
-                        <span>vito</span>
-                    </a>
-                </div>
+          <div class="iq-sidebar-logo">
+            <div class="top-logo">
+              <a th:href="@{index.html}" class="logo">
+                <img th:src="@{images/logo.gif}" class="img-fluid" alt="" />
+                <span>vito</span>
+              </a>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-light p-0">
+          </div>
+          <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <a
+              data-original-title="返回图像列表"
+              data-toggle="tooltip"
+              data-placement="top"
+              th:href="@{viewResult}"
+              class="nav-link font-weight-bold search-box-toggle"
+              ><i class="ri-home-4-line1"></i
+            ></a>
+            <a class="nav-link font-weight-bold search-box-toggle"> </a>
+            <a class="nav-link font-weight-bold search-box-toggle"> </a>
+            <a class="nav-link font-weight-bold search-box-toggle"> </a>
+            <!--<a
+                      class="nav-link font-weight-bold search-box-toggle">
+              </a>
+              <a
+                      class="nav-link font-weight-bold search-box-toggle">
+              </a>
+              <a
+                      class="nav-link font-weight-bold search-box-toggle">
+              </a>
+              <a
+                      class="nav-link font-weight-bold search-box-toggle">
+              </a>-->
 
-                <a data-original-title="返回图像列表" data-toggle="tooltip" data-placement="top"
-                   th:href="@{viewResult}"
-                   class="nav-link font-weight-bold search-box-toggle"
-                ><i class="ri-home-4-line1"></i
-                ></a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle"
-                >
-                </a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>
-                <!--<a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>
-                <a
-                        class="nav-link font-weight-bold search-box-toggle">
-                </a>-->
+            <!--标尺工具堆-->
+            <div class="nav-link font-weight-bold search-box-toggle">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- 显示图标区域 -->
+                  <div class="btn-group" role="group">
+                    <!-- 显示图标区域 -->
+                    <div id="selected-tool-code" class="btn btn-light" title="">
+                      <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
+                    </div>
+                    <!-- 下拉选择按钮 -->
+                    <button
+                      class="btn btn-primary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      onclick="toggleDropdownMenu(event);"
+                    ></button>
+                    <!-- 下拉选择框 -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                      id="dropdown-content"
+                    >
+                      <!-- 工具选项 -->
+                      <a
+                        data-original-title="标尺工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item"
+                        href="#"
+                        onclick="selectTool('标尺工具');activateTool('Length')"
+                      >
+                        <i class="las la-pen1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="比例叠加工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item"
+                        href="#"
+                        onclick="selectTool('比例叠加工具');activateTool('ScaleOverlay')"
+                      >
+                        <i class="las la-tasks1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="角度工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item"
+                        href="#"
+                        onclick="selectTool('角度工具');activateTool('Angle')"
+                      >
+                        <i class="las la-play1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="柯布角工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item"
+                        href="#"
+                        onclick="selectTool('柯布角工具');activateTool('CobbAngle')"
+                      >
+                        <i class="las la-cut1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="双向工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item"
+                        href="#"
+                        onclick="selectTool('双向工具');activateTool('Bidirectional')"
+                      >
+                        <i class="las la-copy1"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a
+              data-original-title="滚轮工具"
+              data-toggle="tooltip"
+              data-placement="top"
+              class="nav-link font-weight-bold search-box-toggle"
+              href="#"
+              onclick="activateTool('StackScrollMouseWheel')"
+            >
+              <i class="las la-radiation1"></i>
+            </a>
+            <div class="nav-link font-weight-bold search-box-toggle">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- 显示图标区域 -->
+                  <div class="btn-group" role="group">
+                    <!-- 显示图标区域 -->
+                    <div
+                      id="selected-tool-code1"
+                      class="btn btn-light"
+                      title=""
+                    >
+                      <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
+                    </div>
+                    <!-- 下拉选择按钮 -->
+                    <button
+                      class="btn btn-primary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      onclick="toggleDropdownMenu1(event);"
+                    ></button>
+                    <!-- 下拉选择框 -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                      id="dropdown-content1"
+                    >
+                      <!-- 工具选项 -->
+                      <a
+                        data-original-title="鼠标缩放工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item1"
+                        href="#"
+                        onclick="selectTool1('鼠标缩放工具');activateTool('Zoom')"
+                      >
+                        <i class="fa fa-crop1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="滚轮缩放工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item1"
+                        href="#"
+                        onclick="selectTool1('滚轮缩放工具');activateTool('ZoomMouseWheel')"
+                      >
+                        <i class="fa fa-bug1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="堆栈滚动工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item1"
+                        href="#"
+                        onclick="selectTool1('堆栈滚动工具');activateTool('StackScroll')"
+                      >
+                        <i class="fa fa-book1"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="nav-link font-weight-bold search-box-toggle">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- 显示图标区域 -->
+                  <div class="btn-group" role="group">
+                    <!-- 显示图标区域 -->
+                    <div
+                      id="selected-tool-code2"
+                      class="btn btn-light"
+                      title=""
+                    >
+                      <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
+                    </div>
+                    <!-- 下拉选择按钮 -->
+                    <button
+                      class="btn btn-primary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton2"
+                      onclick="toggleDropdownMenu2(event);"
+                    ></button>
+                    <!-- 下拉选择框 -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton2"
+                      id="dropdown-content2"
+                    >
+                      <!-- 工具选项 -->
+                      <a
+                        data-original-title="放大镜工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item2"
+                        href="#"
+                        onclick="selectTool2('放大镜工具');activateTool('Magnify')"
+                      >
+                        <i
+                          data-icon="G"
+                          class="icon"
+                          style="font-size: 22px"
+                        ></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="拖动探针工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item2"
+                        href="#"
+                        onclick="selectTool2('拖动探针工具');activateTool('DragProbe')"
+                      >
+                        <i
+                          data-icon="f"
+                          class="icon"
+                          style="font-size: 22px"
+                        ></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="探针定位工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item2"
+                        href="#"
+                        onclick="selectTool2('探针定位工具');activateTool('Probe')"
+                      >
+                        <i
+                          data-icon="K"
+                          class="icon"
+                          style="font-size: 22px"
+                        ></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a
+              data-original-title="平移工具"
+              data-toggle="tooltip"
+              data-placement="top"
+              class="nav-link font-weight-bold search-box-toggle"
+              href="#"
+              onclick="activateTool('Pan')"
+            >
+              <i class="fa fa-asterisk1"></i>
+            </a>
+            <a
+              data-original-title="旋转工具"
+              data-toggle="tooltip"
+              data-placement="top"
+              class="nav-link font-weight-bold search-box-toggle"
+              href="#"
+              onclick="activateTool('Rotate')"
+            >
+              <i class="las la-sync1"></i>
+            </a>
 
-                <!--标尺工具堆-->
-                <div class="nav-link font-weight-bold search-box-toggle">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- 显示图标区域 -->
-                            <div class="btn-group" role="group">
-                                <!-- 显示图标区域 -->
-                                <div id="selected-tool-code" class="btn btn-light" title="">
-                                    <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
-                                </div>
-                                <!-- 下拉选择按钮 -->
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                        onclick="toggleDropdownMenu(event);"></button>
-                                <!-- 下拉选择框 -->
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-                                     id="dropdown-content">
-                                    <!-- 工具选项 -->
-                                    <a data-original-title="标尺工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item" href="#"
-                                       onclick="selectTool('标尺工具');activateTool('Length')">
-                                        <i class="las la-pen1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="比例叠加工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item" href="#"
-                                       onclick="selectTool('比例叠加工具');activateTool('ScaleOverlay')">
-                                        <i class="las la-tasks1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="角度工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item" href="#"
-                                       onclick="selectTool('角度工具');activateTool('Angle')">
-                                        <i class="las la-play1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="柯布角工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item" href="#"
-                                       onclick="selectTool('柯布角工具');activateTool('CobbAngle')">
-                                        <i class="las la-cut1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="双向工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item" href="#"
-                                       onclick="selectTool('双向工具');activateTool('Bidirectional')">
-                                        <i class="las la-copy1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+            <a
+              data-original-title="WWWC区域工具"
+              data-toggle="tooltip"
+              data-placement="top"
+              class="nav-link font-weight-bold search-box-toggle"
+              href="#"
+              onclick="activateTool('WwwcRegion')"
+            >
+              <i class="fa fa-wordpress1"></i>
+            </a>
+            <a
+              data-original-title="WWWC工具"
+              data-toggle="tooltip"
+              data-placement="top"
+              class="nav-link font-weight-bold search-box-toggle"
+              href="#"
+              onclick="activateTool('Wwwc')"
+            >
+              <i class="fa fa-wordpress1"></i>
+            </a>
+            <div class="nav-link font-weight-bold search-box-toggle">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- 显示图标区域 -->
+                  <div class="btn-group" role="group">
+                    <!-- 显示图标区域 -->
+                    <div
+                      id="selected-tool-code3"
+                      class="btn btn-light"
+                      title=""
+                    >
+                      <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
                     </div>
-                </div>
-                <a data-original-title="滚轮工具" data-toggle="tooltip" data-placement="top"
-                   class="nav-link font-weight-bold search-box-toggle " href="#"
-                   onclick="activateTool('StackScrollMouseWheel')">
-                    <i class="las la-radiation1"></i>
-                </a>
-                <div class="nav-link font-weight-bold search-box-toggle">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- 显示图标区域 -->
-                            <div class="btn-group" role="group">
-                                <!-- 显示图标区域 -->
-                                <div id="selected-tool-code1" class="btn btn-light" title="">
-                                    <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
-                                </div>
-                                <!-- 下拉选择按钮 -->
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton1" onclick="toggleDropdownMenu1(event);"></button>
-                                <!-- 下拉选择框 -->
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                     id="dropdown-content1">
-                                    <!-- 工具选项 -->
-                                    <a data-original-title="鼠标缩放工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item1" href="#"
-                                       onclick="selectTool1('鼠标缩放工具');activateTool('Zoom')">
-                                        <i class="fa fa-crop1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="滚轮缩放工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item1" href="#"
-                                       onclick="selectTool1('滚轮缩放工具');activateTool('ZoomMouseWheel')">
-                                        <i class="fa fa-bug1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="堆栈滚动工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item1" href="#"
-                                       onclick="selectTool1('堆栈滚动工具');activateTool('StackScroll')">
-                                        <i class="fa fa-book1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- 下拉选择按钮 -->
+                    <button
+                      class="btn btn-primary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton3"
+                      onclick="toggleDropdownMenu3(event);"
+                    ></button>
+                    <!-- 下拉选择框 -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton3"
+                      id="dropdown-content3"
+                    >
+                      <!-- 工具选项 -->
+                      <a
+                        data-original-title="箭头注释工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item3"
+                        href="#"
+                        onclick="selectTool3('箭头注释工具');activateTool('ArrowAnnotate')"
+                      >
+                        <i class="las la-download1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="文本注释工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item3"
+                        href="#"
+                        onclick="selectTool3('文本注释工具');activateTool('TextMarker')"
+                      >
+                        <i class="las la-edit1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="数据信息工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item3"
+                        href="#"
+                        onclick="selectTool3('数据信息工具');activateTool('ImageStatistics')"
+                      >
+                        <i class="las la-comment1"></i>
+                      </a>
                     </div>
+                  </div>
                 </div>
-                <div class="nav-link font-weight-bold search-box-toggle">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- 显示图标区域 -->
-                            <div class="btn-group" role="group">
-                                <!-- 显示图标区域 -->
-                                <div id="selected-tool-code2" class="btn btn-light" title="">
-                                    <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
-                                </div>
-                                <!-- 下拉选择按钮 -->
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" onclick="toggleDropdownMenu2(event);"></button>
-                                <!-- 下拉选择框 -->
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2"
-                                     id="dropdown-content2">
-                                    <!-- 工具选项 -->
-                                    <a data-original-title="放大镜工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item2" href="#"
-                                       onclick="selectTool2('放大镜工具');activateTool('Magnify')">
-                                        <i data-icon="G" class="icon" style="font-size: 22px"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="拖动探针工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item2" href="#"
-                                       onclick="selectTool2('拖动探针工具');activateTool('DragProbe')">
-                                        <i data-icon="f" class="icon" style="font-size: 22px"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="探针定位工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item2" href="#"
-                                       onclick="selectTool2('探针定位工具');activateTool('Probe')">
-                                        <i data-icon="K" class="icon" style="font-size: 22px"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+              </div>
+            </div>
+            <div class="nav-link font-weight-bold search-box-toggle">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- 显示图标区域 -->
+                  <div class="btn-group" role="group">
+                    <!-- 显示图标区域 -->
+                    <div
+                      id="selected-tool-code4"
+                      class="btn btn-light"
+                      title=""
+                    >
+                      <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
                     </div>
-                </div>
-                <a data-original-title="平移工具" data-toggle="tooltip" data-placement="top"
-                   class="nav-link font-weight-bold search-box-toggle " href="#" onclick="activateTool('Pan')">
-                    <i class="fa fa-asterisk1"></i>
-                </a>
-                <a data-original-title="旋转工具" data-toggle="tooltip" data-placement="top"
-                   class="nav-link font-weight-bold search-box-toggle " href="#" onclick="activateTool('Rotate')">
-                    <i class="las la-sync1"></i>
-                </a>
-
-                <a data-original-title="WWWC区域工具" data-toggle="tooltip" data-placement="top"
-                   class="nav-link font-weight-bold search-box-toggle " href="#" onclick="activateTool('WwwcRegion')">
-                    <i class="fa fa-wordpress1"></i>
-                </a>
-                <a data-original-title="WWWC工具" data-toggle="tooltip" data-placement="top"
-                   class="nav-link font-weight-bold search-box-toggle " href="#" onclick="activateTool('Wwwc')">
-                    <i class="fa fa-wordpress1"></i>
-                </a>
-                <div class="nav-link font-weight-bold search-box-toggle">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- 显示图标区域 -->
-                            <div class="btn-group" role="group">
-                                <!-- 显示图标区域 -->
-                                <div id="selected-tool-code3" class="btn btn-light" title="">
-                                    <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
-                                </div>
-                                <!-- 下拉选择按钮 -->
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton3" onclick="toggleDropdownMenu3(event);"></button>
-                                <!-- 下拉选择框 -->
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3"
-                                     id="dropdown-content3">
-                                    <!-- 工具选项 -->
-                                    <a data-original-title="箭头注释工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item3" href="#"
-                                       onclick="selectTool3('箭头注释工具');activateTool('ArrowAnnotate')">
-                                        <i class="las la-download1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="文本注释工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item3" href="#"
-                                       onclick="selectTool3('文本注释工具');activateTool('TextMarker')">
-                                        <i class="las la-edit1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="数据信息工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item3" href="#"
-                                       onclick="selectTool3('数据信息工具');activateTool('ImageStatistics')">
-                                        <i class="las la-comment1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- 下拉选择按钮 -->
+                    <button
+                      class="btn btn-primary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton4"
+                      onclick="toggleDropdownMenu4(event);"
+                    ></button>
+                    <!-- 下拉选择框 -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton4"
+                      id="dropdown-content4"
+                    >
+                      <!-- 工具选项 -->
+                      <a
+                        data-original-title="画笔工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item4"
+                        href="#"
+                        onclick="selectTool4('画笔工具');activateTool('FreehandRoi')"
+                      >
+                        <i class="ri-cellphone-line1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="椭圆工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item4"
+                        href="#"
+                        onclick="selectTool4('椭圆工具');activateTool('EllipticalRoi')"
+                      >
+                        <i class="ri-drop-line1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="矩形工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item4"
+                        href="#"
+                        onclick="selectTool4('矩形工具');activateTool('RectangleRoi')"
+                      >
+                        <i class="ri-tablet-line1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="自定义椭圆工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item4"
+                        href="#"
+                        onclick="selectTool4('自定义椭圆工具');activateTool('RotatedEllipticalRoi')"
+                      >
+                        <i class="ri-map-pin-line1"></i>
+                      </a>
+                      <!-- 分隔线 -->
+                      <div class="dropdown-divider"></div>
+                      <a
+                        data-original-title="屏幕触控工具"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="dropdown-item font-weight-bold tool-item4"
+                        href="#"
+                        onclick="selectTool4('屏幕触控工具');activateTool('StackScrollMultiTouchTool')"
+                      >
+                        <i class="ri-computer-line1"></i>
+                      </a>
                     </div>
+                  </div>
                 </div>
-                <div class="nav-link font-weight-bold search-box-toggle">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- 显示图标区域 -->
-                            <div class="btn-group" role="group">
-                                <!-- 显示图标区域 -->
-                                <div id="selected-tool-code4" class="btn btn-light" title="">
-                                    <!-- 初始时无内容，会在JavaScript中更新为所选工具的代码 -->
-                                </div>
-                                <!-- 下拉选择按钮 -->
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton4" onclick="toggleDropdownMenu4(event);"></button>
-                                <!-- 下拉选择框 -->
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton4"
-                                     id="dropdown-content4">
-                                    <!-- 工具选项 -->
-                                    <a data-original-title="画笔工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item4" href="#"
-                                       onclick="selectTool4('画笔工具');activateTool('FreehandRoi')">
-                                        <i class="ri-cellphone-line1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="椭圆工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item4" href="#"
-                                       onclick="selectTool4('椭圆工具');activateTool('EllipticalRoi')">
-                                        <i class="ri-drop-line1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="矩形工具" data-toggle="tooltip" data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item4" href="#"
-                                       onclick="selectTool4('矩形工具');activateTool('RectangleRoi')">
-                                        <i class="ri-tablet-line1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="自定义椭圆工具" data-toggle="tooltip"
-                                       data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item4" href="#"
-                                       onclick="selectTool4('自定义椭圆工具');activateTool('RotatedEllipticalRoi')">
-                                        <i class="ri-map-pin-line1"></i>
-                                    </a>
-                                    <!-- 分隔线 -->
-                                    <div class="dropdown-divider"></div>
-                                    <a data-original-title="屏幕触控工具" data-toggle="tooltip"
-                                       data-placement="top"
-                                       class="dropdown-item font-weight-bold tool-item4"
-                                       href="#"
-                                       onclick="selectTool4('屏幕触控工具');activateTool('StackScrollMultiTouchTool')">
-                                        <i class="ri-computer-line1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+              </div>
+            </div>
+          </nav>
         </div>
-    </div>
-    <!-- TOP Nav Bar END -->
-    <!-- Responsive Breadcrumb End-->
-    <!-- Page Content  -->
+      </div>
+      <!-- TOP Nav Bar END -->
+      <!-- Responsive Breadcrumb End-->
+      <!-- Page Content  -->
 
-    <div id="content-page" class="content-page">
+      <div id="content-page" class="content-page">
         <div class="container-fluid" id="result">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="iq-card">
-                        <div class="iq-card-body">
-                            <div class="row">
-                                <div class="imageDiv">
-                                    <div
-                                            class="cornerstone-element"
-                                            data-index="0"
-                                            oncontextmenu="return false"
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="iq-card">
+                <div class="iq-card-body">
+                  <div class="row">
+                    <div class="imageDiv">
+                      <div
+                        class="cornerstone-element"
+                        data-index="0"
+                        oncontextmenu="return false"
+                      ></div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!-- Wrapper END -->
-<!-- Footer -->
-<div th:replace="~{commons/commons::footer}"></div>
-<!-- Footer END -->
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Wrapper END -->
+    <!-- Footer -->
+    <div th:replace="~{commons/commons::footer}"></div>
+    <!-- Footer END -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<div th:replace="~{commons/commons::js}"></div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <div th:replace="~{commons/commons::js}"></div>
 
-<script src="js/cornerstone/cornerstone.js"></script>
-<script src="js/cornerstone/cornerstoneMath.js"></script>
-<script src="js/cornerstone/hammer.js"></script>
-<script src="js/cornerstone/cornerstoneTools.js"></script>
-<script src="js/cornerstone/cornerstoneFileImageLoader.js"></script>
-<script src="js/cornerstone/dicomParser.min.js"></script>
-<script src="js/cornerstone/cornerstoneWADOImageLoader.js"></script>
-<script src="js/cornerstone/cornerstoneWebImageLoader.js"></script>
-<script src="js/cornerstone/image-statistics.js"></script>
-<script src="js/cornerstone/rotated-elliptical-roi-tool.umd.js"></script>
-<!--<script src="nifti/dicom.js"></script>-->
-<script src="nifti/nifti_length.js"></script>
-<script src="nifti/nifti_mouse.js"></script>
-<script src="nifti/nifti_tools.js"></script>
-<script src="nifti/nifti_annotation.js"></script>
-<script src="nifti/nifti_draw.js"></script>
-<script>
-
-
-    cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-
-    cornerstoneWADOImageLoader.configure({
-        beforeSend: function (xhr) {
-            // Add custom headers here (e.g. auth tokens)
-            //xhr.setRequestHeader('APIKEY', 'my auth token');
-        },
-    });
-    window.onload = function () {
-        downloadAndView();
-    };
-
-    function downloadAndView() {
-
-        loadAndViewImage(`wadouri:/Files/Dicom/ph/1-001.dcm`);
-
-    }
-
-    var loaded = false;
-
-    function loadAndViewImage(imageId) {
-        const element = document.querySelector('.cornerstone-element');
-        cornerstone.enable(element);
-
-        try {
-            cornerstone.loadAndCacheImage(imageId).then(function (image) {
-                    console.log(image);
-                    var viewport = cornerstone.getDefaultViewportForImage(element, image);
-                    cornerstone.displayImage(element, image, viewport);
-
-                    //定义长度工具并添加
-                    const LengthTool = cornerstoneTools['LengthTool'];
-                    cornerstoneTools.addTool(LengthTool);
-                    //鼠标滚动工具
-                    const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool
-                    cornerstoneTools.addTool(StackScrollMouseWheelTool)
-                    //屏幕触控显示工具
-                    const StackScrollMultiTouchTool = cornerstoneTools.StackScrollMultiTouchTool
-                    cornerstoneTools.addTool(StackScrollMultiTouchTool)
-                    //指针探针工具
-                    const DragProbeTool = cornerstoneTools.DragProbeTool;
-                    cornerstoneTools.addTool(DragProbeTool)
-                    //放大器工具
-                    const MagnifyTool = cornerstoneTools.MagnifyTool;
-                    cornerstoneTools.addTool(MagnifyTool)
-                    //方向标记工具
-                    const OrientationMarkersTool = cornerstoneTools.OrientationMarkersTool;
-                    cornerstoneTools.addTool(OrientationMarkersTool)
-                    //平移工具
-                    const PanTool = cornerstoneTools.PanTool;
-                    cornerstoneTools.addTool(PanTool)
-                    //旋转工具
-                    const RotateTool = cornerstoneTools.RotateTool;
-                    cornerstoneTools.addTool(RotateTool)
-                    //比例叠加工具
-                    const ScaleOverlayTool = cornerstoneTools.ScaleOverlayTool;
-                    cornerstoneTools.addTool(ScaleOverlayTool)
-                    //WWWC区域工具
-                    const WwwcRegionTool = cornerstoneTools.WwwcRegionTool;
-                    cornerstoneTools.addTool(WwwcRegionTool)
-                    //WWWC工具
-                    const WwwcTool = cornerstoneTools.WwwcTool;
-                    cornerstoneTools.addTool(WwwcTool)
-                    //鼠标滚轮缩放工具
-                    const ZoomMouseWheelTool = cornerstoneTools.ZoomMouseWheelTool;
-                    cornerstoneTools.addTool(ZoomMouseWheelTool)
-                    //滑动缩放工具
-                    const ZoomTool = cornerstoneTools.ZoomTool;
-                    cornerstoneTools.addTool(cornerstoneTools.ZoomTool, {
-                        configuration: {
-                            invert: false,
-                            preventZoomOutsideImage: false,
-                            minScale: .1,
-                            maxScale: 20.0,
-                        }
-                    });
-                    //角度工具
-                    const AngleTool = cornerstoneTools.AngleTool;
-                    cornerstoneTools.addTool(AngleTool)
-                    //箭头注释工具
-                    const ArrowAnnotateTool = cornerstoneTools.ArrowAnnotateTool;
-                    cornerstoneTools.addTool(ArrowAnnotateTool)
-                    //双向工具
-                    const BidirectionalTool = cornerstoneTools.BidirectionalTool;
-                    cornerstoneTools.addTool(BidirectionalTool)
-                    //柯布角工具
-                    const CobbAngleTool = cornerstoneTools.CobbAngleTool;
-                    cornerstoneTools.addTool(CobbAngleTool)
-                    //椭圆工具
-                    const EllipticalRoiTool = cornerstoneTools.EllipticalRoiTool;
-                    cornerstoneTools.addTool(EllipticalRoiTool)
-                    //画笔工具
-                    const FreehandRoiTool = cornerstoneTools.FreehandRoiTool;
-                    cornerstoneTools.addTool(FreehandRoiTool)
-                    //探针定位工具
-                    const ProbeTool = cornerstoneTools.ProbeTool;
-                    cornerstoneTools.addTool(ProbeTool)
-                    //矩形工具
-                    const RectangleRoiTool = cornerstoneTools.RectangleRoiTool;
-                    cornerstoneTools.addTool(RectangleRoiTool)
-                    //文本注释工具
-                    const TextMarkerTool = cornerstoneTools.TextMarkerTool
-                    const configuration = {
-                        markers: ['F5', 'F4', 'F3', 'F2', 'F1'],
-                        current: 'F5',
-                        ascending: true,
-                        loop: true,
-                    }
-                    cornerstoneTools.addTool(TextMarkerTool, {configuration})
-                    //堆栈滚动工具
-                    const StackScrollTool = cornerstoneTools.StackScrollTool;
-                    cornerstoneTools.addTool(StackScrollTool)
-                    //自定义数据信息工具
-                    const ImageStatisticsTool = ImageStatistics.default;
-                    cornerstoneTools.addTool(ImageStatisticsTool);
-                    //自定义椭圆工具
-                    cornerstoneTools.addTool(RotatedEllipticalRoiTool);
-
-
-                    if (loaded === false) {
-                        console.log(cornerstoneTools.store);
-                        //方向标记工具
-                        cornerstoneTools.setToolActive('OrientationMarkers', {mouseButtonMask: 1})
-                        //加载图片
-                        loaded = true;
-                    }
-                },
-                function (err) {
-                    alert(err);
-                    console.error(err);
-                }
-            );
-        } catch (err) {
-            alert(err);
-            console.error(err);
-        }
-    }
-
-
-</script>
-</body>
+    <script src="js/cornerstone/cornerstone.js"></script>
+    <script src="js/cornerstone/cornerstoneMath.js"></script>
+    <script src="js/cornerstone/hammer.js"></script>
+    <script src="js/cornerstone/cornerstoneTools.js"></script>
+    <script src="js/cornerstone/dicomParser.min.js"></script>
+    <script src="js/cornerstone/cornerstoneWADOImageLoader.js"></script>
+    <script src="js/cornerstone/cornerstoneWebImageLoader.js"></script>
+    <script src="js/cornerstone/image-statistics.js"></script>
+    <script src="js/cornerstone/rotated-elliptical-roi-tool.umd.js"></script>
+    <script src="nifti/dicom.js"></script>
+    <script src="nifti/nifti_length.js"></script>
+    <script src="nifti/nifti_mouse.js"></script>
+    <script src="nifti/nifti_tools.js"></script>
+    <script src="nifti/nifti_draw.js"></script>
+    <script src="nifti/nifti_annotation.js"></script>
+  </body>
 </html>

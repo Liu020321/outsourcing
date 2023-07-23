@@ -1,14 +1,8 @@
 //加载cornerstoneNIFTIImageLoader.js
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-const ImageId = cornerstoneWADOImageLoader.wadouri.ImageId;
-cornerstoneWADOImageLoader.configure({
-    beforeSend: function(xhr) {
-        // Add custom headers here (e.g. auth tokens)
-        //xhr.setRequestHeader('APIKEY', 'my auth token');
-    },
-});
 
-var loaded = false;
+let loaded = false;
+let loadedImage;
 //加载cornerstoneTools工具
 cornerstoneTools.external.cornerstone = cornerstone;
 cornerstoneTools.external.Hammer = Hammer;
@@ -17,14 +11,29 @@ cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
 //初始化方法，从路径变量里获取到图像的名字，在赋值给downloadAndView函数
 window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const niftiName = urlParams.get('imageId');
-    downloadAndView(niftiName);
+    const dicUrl = urlParams.get('imageId');
+    downloadAndView(dicUrl);
 };
 
 //从前端获取文件名字在这里执行
-function downloadAndView(niftiName) {
-    let url = `/Files/Dicom/ph/${niftiName}`;
-    loadAndViewImage(`wadouri:${url}`);
+function downloadAndView(dicUrl) {
+    const scheme = 'wadouri';
+        const baseUrl = `/Files/Dicom/${dicUrl}/`;
+        const series = [];
+
+        for (let i = 1; i <= 230; i++) {
+          let number = i.toString().padStart(3, '0'); // 将数字格式化为三位数，并在前面补零
+          let filename = `1-${number}.dcm`;
+          series.push(filename);
+        }
+
+        // prefix the url with wadouri: so cornerstone can find the image loader
+        const imageIds = series.map(
+          (seriesImage) => `${scheme}:${baseUrl}${seriesImage}`
+        ); // <-- Added closing parenthesis here
+
+        // image enable the dicomImage element and activate a few tools
+        loadAndViewImage(imageIds);
 }
 
 cornerstoneTools.init({
@@ -111,21 +120,28 @@ function activateTool(toolName) {
 
 
 
-function loadAndViewImage(imageId) {
+function loadAndViewImage(imageIds) {
     //获取图像信息
     const element = document.querySelector('.cornerstone-element');
     cornerstone.enable(element);
-    const imageIdObject = ImageId.fromURL(imageId);
 
     try {
-        cornerstone.loadAndCacheImage(imageIdObject.url).then(
+        cornerstone.loadAndCacheImage(imageIds[0]).then(
             function (image) {
+                const stack = {
+                    currentImageIdIndex: 0,
+                    imageIds,
+                  };
                 console.log(image);
-                var viewport = cornerstone.getDefaultViewportForImage(element, image);
-                cornerstone.displayImage(element, image, viewport);
-                cornerstoneTools.addStackStateManager(element, ['stack'])
-                cornerstoneTools.addToolState(element, 'stack', stack)
-
+                console.log(image);
+              loadedImage = image;
+              const viewport = cornerstone.getDefaultViewportForImage(
+                element,
+                image
+              );
+              cornerstone.displayImage(element, image, viewport);
+              cornerstoneTools.addStackStateManager(element, ['stack']);
+              cornerstoneTools.addToolState(element, 'stack', stack);
                 //定义长度工具并添加
                 const LengthTool = cornerstoneTools['LengthTool'];
                 cornerstoneTools.addTool(LengthTool);

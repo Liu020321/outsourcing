@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <title>dicom格式图像展示</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" th:href="@{images/favicon.ico}" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+  <!-- Typography CSS -->
+  <link rel="stylesheet" th:href="@{css/typography.css}" />
+  <!-- Style CSS -->
+  <link rel="stylesheet" th:href="@{css/style.css}" />
+  <!-- Responsive CSS -->
+  <link rel="stylesheet" th:href="@{css/responsive.css}" />
+
+  <link rel="stylesheet" th:href="@{nifti/nifti.css}" />
+</head>
+<body>
+<!-- loader Start -->
+<div id="loading">
+  <div id="loading-center"></div>
+</div>
+<!-- loader END -->
+<!-- Wrapper Start -->
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <div th:replace="~{commons/commons::sidebar(active1='yiliao')}"></div>
+  <!--顶部导航栏-->
+
+  <!-- TOP Nav Bar -->
+
+  <!-- TOP Nav Bar END -->
+  <!-- Responsive Breadcrumb End-->
+  <!-- Page Content  -->
+
+  <div id="content-page" class="content-page">
+    <div class="container-fluid" id="result">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="iq-card">
+            <div class="iq-card-body">
+              <div class="row">
+                <div class="">
+                  <div
+                          class="cornerstone-element1"
+                          data-index="0"
+                          oncontextmenu="return false"
+                  ></div>
+                  <div
+                          class="cornerstone-element2"
+                          data-index="0"
+                          oncontextmenu="return false"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Wrapper END -->
+<!-- Footer -->
+<div th:replace="~{commons/commons::footer}"></div>
+<!-- Footer END -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<div th:replace="~{commons/commons::js}"></div>
+
+<script src="js/cornerstone/cornerstone.js"></script>
+<script src="js/cornerstone/cornerstoneMath.js"></script>
+<script src="js/cornerstone/hammer.js"></script>
+<script src="js/cornerstone/cornerstoneTools.js"></script>
+<script src="js/cornerstone/dicomParser.min.js"></script>
+<script src="js/cornerstone/cornerstoneWADOImageLoader.js"></script>
+<script src="js/cornerstone/cornerstoneWebImageLoader.js"></script>
+<script src="js/cornerstone/image-statistics.js"></script>
+<script src="js/cornerstone/rotated-elliptical-roi-tool.umd.js"></script>
+<script src="nifti/dcm.js"></script>
+<!--<script src="nifti/nifti_length.js"></script>-->
+<!--<script src="nifti/nifti_mouse.js"></script>-->
+<!--<script src="nifti/nifti_tools.js"></script>-->
+<!--<script src="nifti/nifti_draw.js"></script>-->
+<!--<script src="nifti/nifti_annotation.js"></script>-->
+</body>
+</html>

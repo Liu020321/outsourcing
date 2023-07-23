@@ -20,6 +20,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/importPictures").setViewName("3D_Operate/importPictures");
         registry.addViewController("/viewResult").setViewName("3D_Operate/viewResult");
         registry.addViewController("/viewDicom").setViewName("3D_Operate/viewDicom");
+        registry.addViewController("/viewDcm").setViewName("3D_Operate/viewDcm");
         registry.addViewController("/viewNifti").setViewName("3D_Operate/viewNifti");
         // 医患操作
         registry.addViewController("/checkRegistration").setViewName("patient/checkRegistration");
