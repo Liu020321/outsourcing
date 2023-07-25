@@ -45,7 +45,7 @@ public class FileController {
 
     private static final String FILES_DIRECTORY = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files/Nifti/";
     private static final String SECOND_DIRECTORY = "/home/lht/Code/pycharm/outsourcing/PaddleSeg/contrib/MedicalSeg/inference_model/submit/";
-
+    private static final String THIRD_DIRECTORY = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files/Original/";
     @RequestMapping("/api/deleteFile")
     @ResponseBody
     public void deleteFiles(@RequestParam String fileName) {
@@ -80,5 +80,18 @@ public class FileController {
             // Delete the second file
             secondFile.delete();
         }
+        String thirdPath = THIRD_DIRECTORY + fileName;
+
+        // Here, implement the logic to delete the file using Java file handling
+        // libraries
+        // For example, you can use java.io.File or java.nio.file.Files to delete the
+        // file
+        // Remember to handle exceptions appropriately in a real-world application.
+        // For this example, we'll just use the basic delete method of java.io.File.
+        java.io.File thirdFile = new java.io.File(thirdPath);
+        if (thirdFile.exists()) {
+            thirdFile.delete();
+        }
     }
+
 }

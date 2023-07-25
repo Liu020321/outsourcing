@@ -100,6 +100,11 @@ function activateTool(toolName) {
     //
     activeTool = toolName;
 }
+const urlParams1 = new URLSearchParams(window.location.search);
+let dicUrl1 = urlParams1.get('imageId');
+function loadr3(){
+    window.location.href = `http://localhost:8081/viewNfi?imageId=${dicUrl1}`
+}
 
 
 

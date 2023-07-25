@@ -33,7 +33,7 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <div
-            th:replace="~{commons/commons::sidebar(active1='yiliao',active2='viewResult.html')}"
+            th:replace="~{commons/commons::sidebar(active1='yiliao',active2='viewresult.html')}"
     ></div>
     <!-- TOP Nav Bar -->
     <div th:replace="~{commons/commons::topnavbar}"></div>
@@ -58,8 +58,8 @@
                                                 id="user_list_datatable_info"
                                                 class="dataTables_filter"
                                         >
-                                            <form class="mr-3 position-relative">
-                                                <div class="form-group mb-0">
+                                            <form class="mr-3 position-relative" @submit.prevent="searchViewResult">
+                                                <div class="form-group mb-0 ">
                                                     <input
                                                             type="Search"
                                                             class="form-control"
@@ -67,7 +67,6 @@
                                                             placeholder="搜索..."
                                                             aria-controls="user-list-table"
                                                             v-model="searchName"
-                                                            @keydown.enter="searchViewResult"
                                                     />
                                                 </div>
                                             </form>
@@ -133,15 +132,15 @@
                                                         @click="redirectToImage(item.fileName)"
                                                 ><i class="ri-user-add-line"></i
                                                 ></a>
-                                                <a
-                                                        class="iq-bg-primary"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title=""
-                                                        data-original-title="处理图像"
-                                                        href="#"
-                                                ><i class="ri-pencil-line"></i
-                                                ></a>
+<!--                                                <a-->
+<!--                                                        class="iq-bg-primary"-->
+<!--                                                        data-toggle="tooltip"-->
+<!--                                                        data-placement="top"-->
+<!--                                                        title=""-->
+<!--                                                        data-original-title="处理图像"-->
+<!--                                                        href="#"-->
+<!--                                                ><i class="ri-pencil-line"></i-->
+<!--                                                ></a>-->
                                                 <a
                                                         class="iq-bg-primary"
                                                         data-toggle="tooltip"
@@ -240,7 +239,7 @@
             loadProducts() {
                 axios
                     .get(
-                        `/api/products?page=${this.currentPage}&size=${this.pageSize}`
+                        `/api/products1?page=${this.currentPage}&size=${this.pageSize}`
                     )
                     .then((response) => {
                         this.products = response.data.rows;
@@ -269,18 +268,22 @@
                 }
             },
             deleteFile(fileName) {
-                axios({
-                    method: 'post',
-                    url: 'http://localhost:8081/api/deleteFile?fileName=' + fileName,
-                })
-                    .then((resp) => {
-                        if (resp.status === 200) {
-                            console.log('success delete fileName: ' + fileName);
-                        }
+                if (this.getFileNameWithoutExtension(fileName).type === '.nii.gz') {
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:8081/api/deleteFile?fileName=' + fileName,
                     })
-                    .catch((error) => {
-                        console.error('Error deleting file:', error);
-                    });
+                        .then((resp) => {
+                            if (resp.status === 200) {
+                                console.log('success delete fileName: ' + fileName);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error deleting file:', error);
+                        });
+                }else {
+                    console.log('not delete fileName: ' + fileName)
+                }
             },
             getFileNameWithoutExtension(fileName) {
                 const name = fileName.split('.')[0];
@@ -298,7 +301,7 @@
                     if (resp.data === 'success') {
                         if (this.getFileNameWithoutExtension(imageId).type === '.nii.gz') {
                             window.location.href =
-                                'http://localhost:8081/viewNifti?imageId=' + imageId;
+                                'http://localhost:8081/viewNfi?imageId=' + imageId;
                         } else if (
                             this.getFileNameWithoutExtension(imageId).type === '.dcm'
                         ) {
@@ -319,7 +322,7 @@
                 this.deleteId = id;
                 axios({
                     method: 'post',
-                    url: 'http://localhost:8081/api/delete?id=' + id,
+                    url: 'http://localhost:8081/api/delete1?id=' + id,
                     data: this.deleteId,
                 }).then((resp) => {
                     if (resp.data === 'success') {
@@ -334,7 +337,7 @@
                 axios({
                     method: 'post',
                     url:
-                        'http://localhost:8081/api/search?name=' +
+                        'http://localhost:8081/api/search1?name=' +
                         this.searchName +
                         '&page=' +
                         this.currentPage +

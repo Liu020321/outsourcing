@@ -26,17 +26,21 @@ public class FileUploadController {
             String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
 
             // 设置目标文件夹路径
-            String targetDirectory = "/home/lht/Code/pycharm/outsourcing/PaddleSeg/contrib/MedicalSeg/inference_model/submit/";
+            String targetDirectory1 = "/home/lht/Code/pycharm/outsourcing/PaddleSeg/contrib/MedicalSeg/inference_model/submit/";
+            String targetDirectory2 = "/home/lht/Code/idea/outsourcing/spring-out/src/main/resources/static/Files/Original/";
 
             // 生成新的文件名
             String newFilename = generateNewFilename(originalFilename);
 
             // 创建目标文件对象
-            File targetFile = new File(targetDirectory + newFilename);
+            File targetFile1 = new File(targetDirectory1 + newFilename);
+            File targetFile2 = new File(targetDirectory2 + originalFilename);
 
             // 复制文件到目标位置
-            Path targetPath = targetFile.toPath();
-            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            Path targetPath1 = targetFile1.toPath();
+            Path targetPath2 = targetFile2.toPath();
+            Files.copy(file.getInputStream(), targetPath1, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), targetPath2, StandardCopyOption.REPLACE_EXISTING);
 
             return newFilename;
         } catch (IOException e) {
